@@ -1,0 +1,27 @@
+.box {
+  width: 80%;
+  min-width: 300px;
+  border: 2px solid lightskyblue;
+  padding: 1em;
+}
+
+.flexBox {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.infoBox {
+  flex: 1;
+}
+
+.removeBtn {
+  background-color: transparent;
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 1.3em;
+  color: red;
+}
