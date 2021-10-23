@@ -17,11 +17,22 @@
 }
 
 .removeBtn {
-  background-color: transparent;
-  border: 1px solid black;
-  border-radius: 50%;
+  background-color: white;
   width: 30px;
   height: 30px;
-  font-size: 1.3em;
-  color: red;
+}
+
+.modalFlexBox {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modalTitle {
+  margin-bottom: 30px;
+}
+
+.modalBtn {
+  padding: 0.5em;
+  font-size: 1.2em;
+  border: 1px solid black;
 }

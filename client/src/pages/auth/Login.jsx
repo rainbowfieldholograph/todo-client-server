@@ -16,7 +16,6 @@ const Login = () => {
       const { data } = await loginUser({
         variables: { username: login, password: password },
       })
-      console.log(data.login)
       localStorage.setItem('token', data.login)
       window.location.assign('/home')
     } catch (error) {

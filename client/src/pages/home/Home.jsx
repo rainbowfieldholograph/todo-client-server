@@ -51,7 +51,6 @@ const Home = () => {
     if (loading || currentUserDataLoading) {
       return <div>Loading...</div>
     }
-    console.log('Data: ', data, 'Loads:', loading, currentUserDataLoading)
     return (
       <>
         <Modal visible={modal} setVisible={setModal}>
@@ -73,9 +72,8 @@ const Home = () => {
         </div>
         <h1>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>
         <div className={styles.contentBox}>
-          {data?.posts.length !== 0 ? (
-            filterItems().map((i, index) => {
-              console.log(i.id)
+          {data?.posts?.length !== 0 ? (
+            filterItems()?.map((i, index) => {
               return (
                 <Item
                   key={i.id + index}

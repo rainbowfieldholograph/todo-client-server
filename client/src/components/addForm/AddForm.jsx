@@ -21,7 +21,7 @@ const AddForm = ({ addNew, setModal }) => {
   return (
     <div className={styles.addForm}>
       <div>
-        <h3>Введите название:</h3>
+        <h3 className={styles.title}>Введите название:</h3>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -30,7 +30,7 @@ const AddForm = ({ addNew, setModal }) => {
         />
       </div>
       <div>
-        <h3>Введите описание:</h3>
+        <h3 className={styles.title}>Введите описание:</h3>
         <input
           onChange={(e) => setDesc(e.target.value)}
           value={desc}
