@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { LOGIN_USER } from '../../graphql/mutation'
 import styles from './Auth.module.css'
 
@@ -9,7 +9,6 @@ const Login = () => {
 
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
-  const [redir, setRedir] = useState(false)
 
   const onClickLogin = async (e) => {
     e.preventDefault()
@@ -19,7 +18,7 @@ const Login = () => {
       })
       console.log(data.login)
       localStorage.setItem('token', data.login)
-      setRedir(true)
+      window.location.assign('/home')
     } catch (error) {
       alert('Ошибка')
       console.log(error)
@@ -41,16 +40,15 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className={styles.input}
-          type="text"
+          type="password"
           placeholder="Password"
         />
         <button onClick={(e) => onClickLogin(e)} className={styles.btn}>
-          Login
+          Confirm
         </button>
         <Link to="/registration">
           <button className={styles.btn}>Registration</button>
         </Link>
-        {redir && <Redirect to="/home" />}
       </form>
     </div>
   )

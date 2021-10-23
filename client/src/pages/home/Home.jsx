@@ -7,7 +7,6 @@ import AddForm from '../../components/addForm/AddForm'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ALL_POSTS, GET_INFO_FROM_TOKEN } from '../../graphql/query'
 import { ADD_NEW_POST } from '../../graphql/mutation'
-import { Redirect } from 'react-router'
 
 const Home = () => {
   const { data, loading } = useQuery(GET_ALL_POSTS)
@@ -15,10 +14,7 @@ const Home = () => {
     variables: { token: localStorage.getItem('token') },
   })
   const [addNewPost] = useMutation(ADD_NEW_POST)
-  const [redir, setRedir] = useState(false)
   const [search, setSearch] = useState('')
-
-  !currentUserDataLoading && console.log('currentUserData: ', currentUserData)
 
   const addNewItem = async (title, desc, completed = false) => {
     try {
@@ -33,23 +29,9 @@ const Home = () => {
     }
   }
 
-  // const onToggleCompleted = (index) => {
-  //   setItems((prevItems) =>
-  //     prevItems.map((task, curIdx) =>
-  //       index === curIdx
-  //         ? {
-  //             ...task,
-  //             completed: !task.completed,
-  //           }
-  //         : task
-  //     )
-  //   )
-  // }
-
   const onClickLogOut = () => {
-    console.log('userLogOut')
     localStorage.removeItem('token')
-    setRedir(true)
+    window.location.assign('/')
   }
 
   const filterItems = () => {
@@ -63,48 +45,57 @@ const Home = () => {
 
   const [modal, setModal] = useState(false)
 
-  return (
-    <div className={styles.home}>
-      {redir && <Redirect to="/" />}
-      {loading & currentUserData ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          {console.log('Data: ', data)}
-          {/* {console.log('Token: ', localStorage.getItem('token'))} */}
-          <Modal visible={modal} setVisible={setModal}>
-            <AddForm setModal={setModal} addNew={addNewItem} />
-          </Modal>
-          <button onClick={() => onClickLogOut()}>LOGOUT</button>
-          <div className={styles.box}>
-            <button
-              onClick={() => {
-                setModal(true)
-              }}
-              className={styles.btn}
-            >
-              Добавить новую задачу
-            </button>
-            <Search search={search} setSearch={setSearch} />
-          </div>
-          <h1>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>
-          {filterItems().map((i, index) => {
-            console.log(i.id)
-            return (
-              <Item
-                key={i.id + index}
-                postId={i.id}
-                title={i.title}
-                desc={i.body}
-                completed={i.completed}
-                index={index}
-              />
-            )
-          })}
-        </>
-      )}
-    </div>
-  )
+  !localStorage.getItem('token') && window.location.assign('/')
+
+  const renderContent = () => {
+    if (loading || currentUserDataLoading) {
+      return <div>Loading...</div>
+    }
+    console.log('Data: ', data, 'Loads:', loading, currentUserDataLoading)
+    return (
+      <>
+        <Modal visible={modal} setVisible={setModal}>
+          <AddForm setModal={setModal} addNew={addNewItem} />
+        </Modal>
+        <button className={styles.logoutButton} onClick={() => onClickLogOut()}>
+          LOGOUT
+        </button>
+        <div className={styles.box}>
+          <button
+            onClick={() => {
+              setModal(true)
+            }}
+            className={styles.btn}
+          >
+            Добавить новую задачу
+          </button>
+          <Search search={search} setSearch={setSearch} />
+        </div>
+        <h1>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>
+        <div className={styles.contentBox}>
+          {data?.posts.length !== 0 ? (
+            filterItems().map((i, index) => {
+              console.log(i.id)
+              return (
+                <Item
+                  key={i.id + index}
+                  postId={i.id}
+                  title={i.title}
+                  desc={i.body}
+                  completed={i.completed}
+                  index={index}
+                />
+              )
+            })
+          ) : (
+            <div>Задачи не были найдены</div>
+          )}
+        </div>
+      </>
+    )
+  }
+
+  return <div className={styles.home}>{renderContent()}</div>
 }
 
 export default Home

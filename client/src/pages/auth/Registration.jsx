@@ -1,6 +1,5 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
-import { Redirect } from 'react-router-dom'
 import { REGISTER_USER } from '../../graphql/mutation'
 import styles from './Auth.module.css'
 
@@ -8,7 +7,6 @@ const Registration = () => {
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
   const [registerUser] = useMutation(REGISTER_USER)
-  const [redir, setRedir] = useState(false)
 
   const onClickRegistration = async (e) => {
     e.preventDefault()
@@ -19,7 +17,7 @@ const Registration = () => {
           password: password,
         },
       })
-      setRedir(true)
+      window.location.assign('/')
     } catch (error) {
       alert('Ошибка')
       console.log(error)
@@ -41,14 +39,13 @@ const Registration = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className={styles.input}
-          type="text"
+          type="password"
           placeholder="Password"
         />
         <button onClick={(e) => onClickRegistration(e)} className={styles.btn}>
-          Registration
+          Create account
         </button>
       </form>
-      {redir && <Redirect to="/" />}
     </div>
   )
 }
