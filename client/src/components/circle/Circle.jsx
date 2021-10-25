@@ -1,18 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './Circle.module.css'
 
-const Circle = ({ completed, index, onToggleCompleted }) => {
-  const [clicked, setClicked] = useState(completed)
+const Circle = ({ id, completed, onToggleCompleted }) => {
   return (
-    <div
-      className={styles.circle}
-      onClick={() => {
-        setClicked(!clicked)
-        onToggleCompleted(index)
-      }}
-    >
+    <div className={styles.circle} onClick={() => onToggleCompleted(id, !completed)}>
       <div
-        className={clicked ? [styles.innerCircle, styles.clicked].join(' ') : styles.innerCircle}
+        className={completed ? [styles.innerCircle, styles.clicked].join(' ') : styles.innerCircle}
       ></div>
     </div>
   )

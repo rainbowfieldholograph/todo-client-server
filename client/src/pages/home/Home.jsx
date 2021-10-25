@@ -6,7 +6,7 @@ import Modal from '../../components/modal/Modal'
 import AddForm from '../../components/addForm/AddForm'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ALL_POSTS, GET_INFO_FROM_TOKEN } from '../../graphql/query'
-import { ADD_NEW_POST } from '../../graphql/mutation'
+import { ADD_NEW_POST, UPDATE_POST } from '../../graphql/mutation'
 
 const Home = () => {
   const { data, loading } = useQuery(GET_ALL_POSTS)
@@ -14,16 +14,20 @@ const Home = () => {
     variables: { token: localStorage.getItem('token') },
   })
   const [addNewPost] = useMutation(ADD_NEW_POST)
+  const [updatePost] = useMutation(UPDATE_POST)
   const [search, setSearch] = useState('')
 
-  const addNewItem = async (title, desc, completed = false) => {
+  const addNewItem = async (title, desc, completed) => {
     try {
       await addNewPost({
         variables: {
           title: title,
           body: desc,
+          completed: completed,
         },
       })
+      window.location.reload()
+      setModal(false)
     } catch (error) {
       alert(error)
     }
@@ -32,6 +36,20 @@ const Home = () => {
   const onClickLogOut = () => {
     localStorage.removeItem('token')
     window.location.assign('/')
+  }
+
+  const onToggleCompleted = async (id, completed) => {
+    try {
+      await updatePost({
+        variables: {
+          id: id,
+          completed: completed,
+        },
+      })
+      window.location.reload()
+    } catch (error) {
+      alert(error)
+    }
   }
 
   const filterItems = () => {
@@ -54,7 +72,7 @@ const Home = () => {
     return (
       <>
         <Modal visible={modal} setVisible={setModal}>
-          <AddForm setModal={setModal} addNew={addNewItem} />
+          <AddForm addNew={addNewItem} />
         </Modal>
         <button className={styles.logoutButton} onClick={() => onClickLogOut()}>
           LOGOUT
@@ -81,7 +99,7 @@ const Home = () => {
                   title={i.title}
                   desc={i.body}
                   completed={i.completed}
-                  index={index}
+                  onToggleCompleted={onToggleCompleted}
                 />
               )
             })

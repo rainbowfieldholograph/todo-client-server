@@ -6,7 +6,7 @@ import styles from './Item.module.css'
 import removeImg from '../../img/remove.png'
 import Modal from '../modal/Modal'
 
-const Item = ({ postId, title, desc, completed, onToggleCompleted, index }) => {
+const Item = ({ postId, title, desc, completed, onToggleCompleted }) => {
   const [modalVisible, setModalVisible] = useState()
   const [removePost] = useMutation(REMOVE_POST)
 
@@ -18,6 +18,7 @@ const Item = ({ postId, title, desc, completed, onToggleCompleted, index }) => {
         },
       })
       setModalVisible(false)
+      window.location.reload()
     } catch (error) {
       alert('Ошибка')
       console.log(error)
@@ -27,7 +28,7 @@ const Item = ({ postId, title, desc, completed, onToggleCompleted, index }) => {
   return (
     <div className={styles.box}>
       <div className={styles.flexBox}>
-        <Circle index={index} onToggleCompleted={onToggleCompleted} completed={completed} />
+        <Circle id={postId} onToggleCompleted={onToggleCompleted} completed={completed} />
         <div className={styles.infoBox}>
           <h2>{completed ? <del>{title}</del> : title}</h2>
           <p>{completed ? <del>{desc}</del> : desc}</p>

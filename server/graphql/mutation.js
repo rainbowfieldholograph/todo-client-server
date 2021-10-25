@@ -1,4 +1,4 @@
-const { GraphQLString } = require('graphql')
+const { GraphQLString, GraphQLBoolean } = require('graphql')
 
 const { PostType } = require('./types')
 const { User, Post } = require('../models')
@@ -42,13 +42,19 @@ const addPost = {
   args: {
     title: { type: GraphQLString },
     body: { type: GraphQLString },
+    completed: { type: GraphQLBoolean },
   },
   resolve(parent, args, { verifiedUser }) {
     console.log('Verified User: ', verifiedUser)
     if (!verifiedUser) {
       throw new Error('Unauthorized')
     }
-    const post = new Post({ authorId: verifiedUser.id, title: args.title, body: args.body })
+    const post = new Post({
+      authorId: verifiedUser.id,
+      title: args.title,
+      body: args.body,
+      completed: args.completed,
+    })
     return post.save()
   },
 }
@@ -59,6 +65,7 @@ const updatePost = {
     id: { type: GraphQLString },
     title: { type: GraphQLString },
     body: { type: GraphQLString },
+    completed: { type: GraphQLBoolean },
   },
   async resolve(parent, args, { verifiedUser }) {
     if (!verifiedUser) {
@@ -68,14 +75,16 @@ const updatePost = {
     const postUpdated = await Post.findOneAndUpdate(
       {
         _id: args.id,
-        authorId: verifiedUser,
+        authorId: verifiedUser.id,
       },
-      { title: args.title, body: args.body },
+      { title: args.title, body: args.body, completed: args.completed },
       {
         new: true,
         runValidators: true,
       }
     )
+
+    console.log(postUpdated)
 
     if (!postUpdated) {
       throw new Error('No post with the given ID found for the author')

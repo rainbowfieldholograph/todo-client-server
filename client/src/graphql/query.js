@@ -6,6 +6,7 @@ export const GET_ALL_POSTS = gql`
       id
       title
       body
+      completed
       author {
         id
       }
@@ -47,9 +48,3 @@ export const GET_INFO_FROM_TOKEN = gql`
     }
   }
 `
-
-// export const REMOVE_POST = gql`
-//   mutation RemovePost($postId: String!) {
-//     deletePost(postId: $postId)
-//   }
-// `

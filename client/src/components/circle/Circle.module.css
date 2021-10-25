@@ -4,10 +4,12 @@
   flex-shrink: 0;
   border-radius: 50%;
   border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .innerCircle {
-  transform: translate(50%, 50%);
   width: 50%;
   height: 50%;
   border-radius: 50%;

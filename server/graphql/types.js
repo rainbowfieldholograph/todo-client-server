@@ -1,4 +1,10 @@
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList } = require('graphql')
+const {
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString,
+  GraphQLList,
+  GraphQLBoolean,
+} = require('graphql')
 
 const { User, Post } = require('../models')
 
@@ -21,6 +27,7 @@ const PostType = new GraphQLObjectType({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
     body: { type: GraphQLString },
+    completed: { type: GraphQLBoolean },
     author: {
       type: UserType,
       resolve(parent, args) {

@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import styles from './AddForm.module.css'
 
-const AddForm = ({ addNew, setModal }) => {
+const AddForm = ({ addNew }) => {
   const [title, setTitle] = useState('')
   const [desc, setDesc] = useState('')
 
   const addNewTask = async () => {
-    console.log(addNew)
     try {
-      await addNew(title, desc)
-      setModal(false)
+      await addNew(title, desc, false)
     } catch (error) {
       alert('Ошибка')
       console.log(error)

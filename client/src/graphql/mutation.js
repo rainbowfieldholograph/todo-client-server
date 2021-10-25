@@ -13,8 +13,8 @@ export const REGISTER_USER = gql`
 `
 
 export const ADD_NEW_POST = gql`
-  mutation AddNewPost($title: String!, $body: String!) {
-    addPost(title: $title, body: $body) {
+  mutation AddNewPost($title: String!, $body: String!, $completed: Boolean!) {
+    addPost(title: $title, body: $body, completed: $completed) {
       title
       body
     }
@@ -24,5 +24,13 @@ export const ADD_NEW_POST = gql`
 export const REMOVE_POST = gql`
   mutation RemovePost($postId: String!) {
     deletePost(postId: $postId)
+  }
+`
+
+export const UPDATE_POST = gql`
+  mutation UpdatePost($id: String!, $title: String, $body: String, $completed: Boolean) {
+    updatePost(id: $id, title: $title, body: $body, completed: $completed) {
+      title
+    }
   }
 `
