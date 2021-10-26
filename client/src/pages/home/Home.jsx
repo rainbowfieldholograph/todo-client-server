@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './Home.module.css'
 import Item from '../../components/item/Item'
 import Search from '../../components/search/Search'
@@ -7,6 +7,7 @@ import AddForm from '../../components/addForm/AddForm'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ALL_POSTS, GET_INFO_FROM_TOKEN } from '../../graphql/query'
 import { ADD_NEW_POST, UPDATE_POST } from '../../graphql/mutation'
+import { AuthContext } from '../../context/context'
 
 const Home = () => {
   const { data, loading } = useQuery(GET_ALL_POSTS)
@@ -16,6 +17,8 @@ const Home = () => {
   const [addNewPost] = useMutation(ADD_NEW_POST)
   const [updatePost] = useMutation(UPDATE_POST)
   const [search, setSearch] = useState('')
+
+  const { setIsAuth } = useContext(AuthContext)
 
   const addNewItem = async (title, desc, completed) => {
     try {
@@ -36,6 +39,7 @@ const Home = () => {
   const onClickLogOut = () => {
     localStorage.removeItem('token')
     window.location.assign('/')
+    setIsAuth(false)
   }
 
   const onToggleCompleted = async (id, completed) => {
@@ -62,8 +66,6 @@ const Home = () => {
   }
 
   const [modal, setModal] = useState(false)
-
-  !localStorage.getItem('token') && window.location.assign('/')
 
   const renderContent = () => {
     if (loading || currentUserDataLoading) {
