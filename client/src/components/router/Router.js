@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import Home from '../../pages/home/Home'
 import Registration from '../../pages/auth/Registration'
 import Login from '../../pages/auth/Login'
@@ -16,10 +16,7 @@ const Router = () => {
           <Route exact path="/home">
             <Home />
           </Route>
-          <Route>
-            <div>Not found.</div>
-          </Route>
-          {console.log('user auth + ')}
+          <Redirect to="/home" />
         </Switch>
       ) : (
         <Switch>
@@ -29,7 +26,7 @@ const Router = () => {
           <Route path="/registration">
             <Registration />
           </Route>
-          {console.log('user auth - ')}
+          <Redirect to="/" />
         </Switch>
       )}
     </BrowserRouter>

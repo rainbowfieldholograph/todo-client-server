@@ -3,6 +3,7 @@
   min-width: 300px;
   border: 2px solid lightskyblue;
   padding: 1em;
+  word-wrap: break-word;
 }
 
 .flexBox {
@@ -14,6 +15,7 @@
 
 .infoBox {
   flex: 1;
+  overflow: hidden;
 }
 
 .removeBtn {

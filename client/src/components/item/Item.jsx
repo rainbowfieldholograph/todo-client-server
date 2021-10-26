@@ -31,7 +31,7 @@ const Item = ({ postId, title, desc, completed, onToggleCompleted }) => {
         <Circle id={postId} onToggleCompleted={onToggleCompleted} completed={completed} />
         <div className={styles.infoBox}>
           <h2>{completed ? <del>{title}</del> : title}</h2>
-          <p>{completed ? <del>{desc}</del> : desc}</p>
+          <div className={styles.descr}>{completed ? <del>{desc}</del> : desc}</div>
         </div>
         <button onClick={() => setModalVisible(true)} className={styles.removeBtn}>
           <img src={removeImg} alt="remove" />
