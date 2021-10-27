@@ -4,6 +4,7 @@ import Home from '../../pages/home/Home'
 import Registration from '../../pages/auth/Registration'
 import Login from '../../pages/auth/Login'
 import { AuthContext } from '../../context/context'
+import Header from '../header/Header'
 
 const Router = () => {
   const { isAuth } = useContext(AuthContext)
@@ -12,12 +13,15 @@ const Router = () => {
   return (
     <BrowserRouter>
       {isAuth ? (
-        <Switch>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Redirect to="/home" />
-        </Switch>
+        <>
+          <Header />
+          <Switch>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Redirect to="/home" />
+          </Switch>
+        </>
       ) : (
         <Switch>
           <Route exact path="/">
