@@ -35,3 +35,9 @@
   background-color: transparent;
   margin-left: auto;
 }
+
+.title {
+  overflow: auto;
+  width: 100%;
+  text-align: center;
+}

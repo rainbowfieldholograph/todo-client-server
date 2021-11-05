@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './AddForm.module.css'
 
-const AddForm = ({ addNew }) => {
+const AddForm = React.memo(function AddForm({ addNew }) {
   const [title, setTitle] = useState('')
   const [desc, setDesc] = useState('')
 
@@ -15,6 +15,8 @@ const AddForm = ({ addNew }) => {
     setTitle('')
     setDesc('')
   }
+
+  console.log('render AddForm')
 
   return (
     <div className={styles.addForm}>
@@ -41,6 +43,6 @@ const AddForm = ({ addNew }) => {
       </button>
     </div>
   )
-}
+})
 
 export default AddForm

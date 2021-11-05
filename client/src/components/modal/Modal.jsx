@@ -1,11 +1,12 @@
 import React from 'react'
 import styles from './Modal.module.css'
 
-const Modal = ({ children, visible, setVisible }) => {
+const Modal = React.memo(function Modal({ children, visible, setVisible }) {
+  console.log('render Modal')
   return (
     <div
       onClick={() => {
-        setVisible(false)
+        setVisible()
       }}
       className={visible ? [styles.modalWrapper, styles.active].join(' ') : styles.modalWrapper}
     >
@@ -19,6 +20,6 @@ const Modal = ({ children, visible, setVisible }) => {
       </div>
     </div>
   )
-}
+})
 
 export default Modal

@@ -8,8 +8,12 @@ import { useMutation, useQuery } from '@apollo/client'
 import { GET_ALL_POSTS, GET_INFO_FROM_TOKEN } from '../../graphql/query'
 import { ADD_NEW_POST, UPDATE_POST } from '../../graphql/mutation'
 import { AuthContext } from '../../context/context'
+import { useHistory } from 'react-router-dom'
+import Loading from '../../components/loading/Loading'
 
 const Home = () => {
+  const history = useHistory()
+
   const { data, loading } = useQuery(GET_ALL_POSTS)
   const { data: currentUserData, loading: currentUserDataLoading } = useQuery(GET_INFO_FROM_TOKEN, {
     variables: { token: localStorage.getItem('token') },
@@ -18,43 +22,58 @@ const Home = () => {
   const [updatePost] = useMutation(UPDATE_POST)
   const [search, setSearch] = useState('')
 
+  const [modal, setModal] = useState(false)
+
   const { setIsAuth } = useContext(AuthContext)
 
-  const addNewItem = async (title, desc, completed) => {
-    try {
-      await addNewPost({
-        variables: {
-          title: title,
-          body: desc,
-          completed: completed,
-        },
-      })
-      window.location.reload()
-      setModal(false)
-    } catch (error) {
-      alert(error)
-    }
-  }
+  const toggleModal = React.useCallback(() => setModal(!modal), [modal])
+  const setSearchText = React.useCallback((text) => setSearch(text), [])
+
+  const addNewItem = React.useCallback(
+    async (title, desc, completed) => {
+      try {
+        await addNewPost({
+          variables: {
+            title: title,
+            body: desc,
+            completed: completed,
+          },
+        })
+        window.location.reload()
+        setModal(false)
+      } catch (error) {
+        alert(error)
+      }
+    },
+    [addNewPost]
+  )
+
+  const insideModal = React.useMemo(() => {
+    return <AddForm addNew={addNewItem} />
+  }, [addNewItem])
 
   const onClickLogOut = () => {
     localStorage.removeItem('token')
-    window.location.assign('/')
+    history.push('/')
     setIsAuth(false)
   }
 
-  const onToggleCompleted = async (id, completed) => {
-    try {
-      await updatePost({
-        variables: {
-          id: id,
-          completed: completed,
-        },
-      })
-      window.location.reload()
-    } catch (error) {
-      alert(error)
-    }
-  }
+  const onToggleCompleted = React.useCallback(
+    async (id, completed) => {
+      try {
+        await updatePost({
+          variables: {
+            id: id,
+            completed: completed,
+          },
+        })
+        window.location.reload()
+      } catch (error) {
+        alert(error)
+      }
+    },
+    [updatePost]
+  )
 
   const filterItems = () => {
     return data?.posts?.filter((item) => {
@@ -65,18 +84,16 @@ const Home = () => {
     })
   }
 
-  const [modal, setModal] = useState(false)
-
-  const renderContent = () => {
+  const renderComponent = () => {
     if (loading || currentUserDataLoading) {
-      return <div>Loading...</div>
+      return <Loading />
     }
     return (
-      <>
-        <Modal visible={modal} setVisible={setModal}>
-          <AddForm addNew={addNewItem} />
+      <div className={styles.home}>
+        <Modal visible={modal} setVisible={toggleModal}>
+          {insideModal}
         </Modal>
-        <button className={styles.logoutButton} onClick={() => onClickLogOut()}>
+        <button className={styles.logoutButton} onClick={onClickLogOut}>
           LOGOUT
         </button>
         <div className={styles.box}>
@@ -88,9 +105,9 @@ const Home = () => {
           >
             Добавить новую задачу
           </button>
-          <Search search={search} setSearch={setSearch} />
+          <Search search={search} setSearch={setSearchText} />
         </div>
-        <h1>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>
+        <h1 className={styles.title}>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>
         <div className={styles.contentBox}>
           {data?.posts?.length !== 0 ? (
             filterItems()?.map((i, index) => {
@@ -109,11 +126,11 @@ const Home = () => {
             <div>Задачи не были найдены</div>
           )}
         </div>
-      </>
+      </div>
     )
   }
 
-  return <div className={styles.home}>{renderContent()}</div>
+  return renderComponent()
 }
 
 export default Home

@@ -13,11 +13,8 @@ const App = () => {
       setIsAuth(true)
     } else {
       setIsAuth(false)
-      console.log('s')
     }
   }, [])
-
-  console.log(isAuth)
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth }}>

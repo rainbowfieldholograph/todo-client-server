@@ -9,7 +9,6 @@ import Header from '../header/Header'
 const Router = () => {
   const { isAuth } = useContext(AuthContext)
 
-  console.log(isAuth)
   return (
     <BrowserRouter>
       {isAuth ? (

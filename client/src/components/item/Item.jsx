@@ -6,7 +6,8 @@ import styles from './Item.module.css'
 import removeImg from '../../img/remove.png'
 import Modal from '../modal/Modal'
 
-const Item = ({ postId, title, desc, completed, onToggleCompleted }) => {
+const Item = React.memo(function Item({ postId, title, desc, completed, onToggleCompleted }) {
+  console.log('render Item')
   const [modalVisible, setModalVisible] = useState()
   const [removePost] = useMutation(REMOVE_POST)
 
@@ -52,6 +53,6 @@ const Item = ({ postId, title, desc, completed, onToggleCompleted }) => {
       </div>
     </div>
   )
-}
+})
 
 export default Item

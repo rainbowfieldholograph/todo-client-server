@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router'
 import { REGISTER_USER } from '../../graphql/mutation'
 import styles from './Auth.module.css'
 
@@ -8,7 +9,9 @@ const Registration = () => {
   const [password, setPassword] = useState('')
   const [registerUser] = useMutation(REGISTER_USER)
 
-  const onClickRegistration = async (e) => {
+  const history = useHistory()
+
+  const onSubmit = async (e) => {
     e.preventDefault()
     try {
       await registerUser({
@@ -17,7 +20,7 @@ const Registration = () => {
           password: password,
         },
       })
-      window.location.assign('/')
+      history.push('/')
     } catch (error) {
       alert('Ошибка')
       console.log(error)
@@ -26,23 +29,29 @@ const Registration = () => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.box} action="">
+      <form className={styles.box} action="" onSubmit={onSubmit}>
         <h1>Registration</h1>
         <input
+          id="login"
+          name="login"
+          required
           value={login}
           onChange={(e) => setLogin(e.target.value)}
           className={styles.input}
           type="text"
-          placeholder="Login"
+          placeholder="Enter your login"
         />
         <input
+          id="password"
+          name="password"
+          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className={styles.input}
           type="password"
-          placeholder="Password"
+          placeholder="Enter your password"
         />
-        <button onClick={(e) => onClickRegistration(e)} className={styles.btn}>
+        <button type="submit" className={styles.btn}>
           Create account
         </button>
       </form>
