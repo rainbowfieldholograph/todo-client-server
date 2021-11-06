@@ -5,7 +5,8 @@ const AddForm = React.memo(function AddForm({ addNew }) {
   const [title, setTitle] = useState('')
   const [desc, setDesc] = useState('')
 
-  const addNewTask = async () => {
+  const addNewTask = async (e) => {
+    e.preventDefault()
     try {
       await addNew(title, desc, false)
     } catch (error) {
@@ -19,29 +20,40 @@ const AddForm = React.memo(function AddForm({ addNew }) {
   console.log('render AddForm')
 
   return (
-    <div className={styles.addForm}>
-      <div>
-        <h3 className={styles.title}>Введите название:</h3>
+    <form onSubmit={addNewTask} action="" className={styles.addForm}>
+      <div className={styles.box}>
+        <label htmlFor="title" className={styles.title}>
+          Введите название:
+        </label>
         <input
+          id="title"
+          name="title"
+          required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className={styles.input}
           type="text"
         />
       </div>
-      <div>
-        <h3 className={styles.title}>Введите описание:</h3>
-        <input
+      <div className={styles.box}>
+        <label htmlFor="description" className={styles.title}>
+          Введите описание:
+        </label>
+        <textarea
+          className={styles.textarea}
           onChange={(e) => setDesc(e.target.value)}
+          required
           value={desc}
-          className={styles.input}
-          type="text"
-        />
+          name="description"
+          id="description"
+          cols="30"
+          rows="10"
+        ></textarea>
       </div>
-      <button onClick={() => addNewTask()} className={styles.btn}>
+      <button type="submit" className={styles.btn}>
         Создать задачу
       </button>
-    </div>
+    </form>
   )
 })
 

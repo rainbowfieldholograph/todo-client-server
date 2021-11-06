@@ -6,12 +6,8 @@
 }
 
 .input {
-  display: block;
   width: 300px;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding: 0.5em;
   border: 1px solid black;
   font-size: 1.3em;
 }
@@ -27,4 +23,17 @@
 
 .title {
   margin-bottom: 8px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  width: 300px;
+  resize: none;
+  border: 1px solid black;
+  padding: 0.5em;
+  font-size: 1.3em;
 }

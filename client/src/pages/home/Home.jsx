@@ -29,7 +29,7 @@ const Home = () => {
   const toggleModal = React.useCallback(() => setModal(!modal), [modal])
   const setSearchText = React.useCallback((text) => setSearch(text), [])
 
-  const addNewItem = React.useCallback(
+  const addNewTask = React.useCallback(
     async (title, desc, completed) => {
       try {
         await addNewPost({
@@ -43,14 +43,15 @@ const Home = () => {
         setModal(false)
       } catch (error) {
         alert(error)
+        console.log(error)
       }
     },
     [addNewPost]
   )
 
   const insideModal = React.useMemo(() => {
-    return <AddForm addNew={addNewItem} />
-  }, [addNewItem])
+    return <AddForm addNew={addNewTask} />
+  }, [addNewTask])
 
   const onClickLogOut = () => {
     localStorage.removeItem('token')
