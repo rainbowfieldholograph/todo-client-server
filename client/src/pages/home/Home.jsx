@@ -5,7 +5,7 @@ import Search from '../../components/search/Search'
 import Modal from '../../components/modal/Modal'
 import AddForm from '../../components/addForm/AddForm'
 import { useMutation, useQuery } from '@apollo/client'
-import { GET_ALL_POSTS, GET_INFO_FROM_TOKEN } from '../../graphql/query'
+import { GET_ALL_POSTS, GET_CURRENT_USER } from '../../graphql/query'
 import { ADD_NEW_POST, UPDATE_POST } from '../../graphql/mutation'
 import { AuthContext } from '../../context/context'
 import { useHistory } from 'react-router-dom'
@@ -14,14 +14,13 @@ import Loading from '../../components/loading/Loading'
 const Home = () => {
   const history = useHistory()
 
+  const { data: currentUserData, loading: currentUserLoading } = useQuery(GET_CURRENT_USER)
+
   const { data, loading } = useQuery(GET_ALL_POSTS)
-  const { data: currentUserData, loading: currentUserDataLoading } = useQuery(GET_INFO_FROM_TOKEN, {
-    variables: { token: localStorage.getItem('token') },
-  })
   const [addNewPost] = useMutation(ADD_NEW_POST)
   const [updatePost] = useMutation(UPDATE_POST)
-  const [search, setSearch] = useState('')
 
+  const [search, setSearch] = useState('')
   const [modal, setModal] = useState(false)
 
   const { setIsAuth } = useContext(AuthContext)
@@ -80,13 +79,13 @@ const Home = () => {
     return data?.posts?.filter((item) => {
       return (
         item?.title?.toUpperCase().includes(search.toUpperCase()) &
-        (item?.author?.id === currentUserData?.getInfoFromToken?.id)
+        (item?.author?.id === currentUserData?.getCurrentUser?.id)
       )
     })
   }
 
   const renderComponent = () => {
-    if (loading || currentUserDataLoading) {
+    if (loading || currentUserLoading) {
       return <Loading />
     }
     return (

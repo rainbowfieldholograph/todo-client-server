@@ -19,12 +19,10 @@ const user = {
   },
 }
 
-const getInfoFromToken = {
+const getCurrentUser = {
   type: UserType,
-  args: { token: { type: GraphQLString } },
-  resolve(parent, args) {
-    console.log(jwt.verify(args.token, process.env.SECRET_KEY_JWT))
-    return jwt.verify(args.token, process.env.SECRET_KEY_JWT)
+  resolve(parent, args, { verifiedUser }) {
+    return verifiedUser
   },
 }
 
@@ -43,4 +41,4 @@ const post = {
   },
 }
 
-module.exports = { users, user, posts, post, getInfoFromToken }
+module.exports = { users, user, posts, post, getCurrentUser }

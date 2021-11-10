@@ -40,9 +40,9 @@ export const GET_USER = gql`
   }
 `
 
-export const GET_INFO_FROM_TOKEN = gql`
-  query GetInfoFromToken($token: String!) {
-    getInfoFromToken(token: $token) {
+export const GET_CURRENT_USER = gql`
+  {
+    getCurrentUser {
       id
       username
     }
