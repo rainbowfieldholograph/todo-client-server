@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import styles from './Home.module.css'
+import styles from './MyTodos.module.css'
 import Item from '../../components/item/Item'
 import Search from '../../components/search/Search'
 import Modal from '../../components/modal/Modal'
@@ -16,8 +16,18 @@ const Home = () => {
 
   const { data: currentUserData, loading: currentUserLoading } = useQuery(GET_CURRENT_USER)
 
-  const { data, loading } = useQuery(GET_ALL_POSTS)
-  const [addNewPost] = useMutation(ADD_NEW_POST)
+  const [todos, setTodos] = useState([])
+
+  const { loading } = useQuery(GET_ALL_POSTS, {
+    onCompleted: ({ posts }) => {
+      setTodos(posts)
+    },
+  })
+  const [addNewPost] = useMutation(ADD_NEW_POST, {
+    onCompleted: ({ addPost: newPost }) => {
+      setTodos([...todos, newPost])
+    },
+  })
   const [updatePost] = useMutation(UPDATE_POST)
 
   const [search, setSearch] = useState('')
@@ -38,7 +48,6 @@ const Home = () => {
             completed: completed,
           },
         })
-        window.location.reload()
         setModal(false)
       } catch (error) {
         alert(error)
@@ -75,62 +84,59 @@ const Home = () => {
     [updatePost]
   )
 
-  const filterItems = () => {
-    return data?.posts?.filter((item) => {
-      return (
-        item?.title?.toUpperCase().includes(search.toUpperCase()) &
-        (item?.author?.id === currentUserData?.getCurrentUser?.id)
-      )
-    })
-  }
+  console.log('61ccd70f9d023aefafb34aa5' === currentUserData?.getCurrentUser.id)
 
-  const renderComponent = () => {
-    if (loading || currentUserLoading) {
-      return <Loading />
-    }
-    return (
-      <div className={styles.home}>
-        <Modal visible={modal} setVisible={toggleModal}>
-          {insideModal}
-        </Modal>
-        <button className={styles.logoutButton} onClick={onClickLogOut}>
-          LOGOUT
-        </button>
-        <div className={styles.box}>
-          <button
-            onClick={() => {
-              setModal(true)
-            }}
-            className={styles.btn}
-          >
-            Добавить новую задачу
-          </button>
-          <Search search={search} setSearch={setSearchText} />
-        </div>
-        <h1 className={styles.title}>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>
-        <div className={styles.contentBox}>
-          {data?.posts?.length !== 0 ? (
-            filterItems()?.map((i, index) => {
-              return (
-                <Item
-                  key={i.id + index}
-                  postId={i.id}
-                  title={i.title}
-                  desc={i.body}
-                  completed={i.completed}
-                  onToggleCompleted={onToggleCompleted}
-                />
-              )
-            })
-          ) : (
-            <div>Задачи не были найдены</div>
-          )}
-        </div>
-      </div>
+  const filterItems = () => {
+    return todos?.filter(
+      (item) =>
+        item?.title.toUpperCase().includes(search.toUpperCase()) &
+        (item?.author.id === currentUserData?.getCurrentUser.id)
     )
   }
 
-  return renderComponent()
+  console.log(filterItems())
+
+  if (loading || currentUserLoading) {
+    return <Loading />
+  }
+
+  return (
+    <div className={styles.home}>
+      <Modal visible={modal} setVisible={toggleModal}>
+        {insideModal}
+      </Modal>
+      <button className={styles.logoutButton} onClick={onClickLogOut}>
+        LOGOUT
+      </button>
+      <div className={styles.box}>
+        <button
+          onClick={() => {
+            setModal(true)
+          }}
+          className={styles.btn}
+        >
+          Добавить новую задачу
+        </button>
+        <Search search={search} setSearch={setSearchText} />
+      </div>
+      <h1 className={styles.title}>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>
+      <div className={styles.contentBox}>
+        {filterItems()?.length === 0 && <p>Посты не были найдены</p>}
+        {filterItems()?.map((i, index) => {
+          return (
+            <Item
+              key={i.id + index}
+              postId={i.id}
+              title={i.title}
+              desc={i.body}
+              completed={i.completed}
+              onToggleCompleted={onToggleCompleted}
+            />
+          )
+        })}
+      </div>
+    </div>
+  )
 }
 
 export default Home

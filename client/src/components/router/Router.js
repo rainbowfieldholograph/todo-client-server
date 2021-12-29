@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import Home from '../../pages/home/Home'
+import MyTodos from '../../pages/myTodos/MyTodos'
 import Registration from '../../pages/auth/Registration'
 import Login from '../../pages/auth/Login'
 import { AuthContext } from '../../context/context'
@@ -16,7 +16,7 @@ const Router = () => {
           <Header />
           <Switch>
             <Route exact path="/home">
-              <Home />
+              <MyTodos />
             </Route>
             <Redirect to="/home" />
           </Switch>
