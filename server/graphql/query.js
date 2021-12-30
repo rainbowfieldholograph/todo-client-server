@@ -42,13 +42,18 @@ const getPostById = {
 }
 
 const getUserPosts = {
-  type: PostType,
+  type: new GraphQLList(PostType),
   args: { id: { type: GraphQLID } },
-  resolve(_, args) {
-    const posts = Post.find()
-    console.log(typeof posts)
-    return
+  resolve(_, args, { verifiedUser }) {
+    return Post.find({ authorId: verifiedUser.id })
   },
 }
 
-module.exports = { getAllUsers, getUserById, getAllPosts, getPostById, getCurrentUser }
+module.exports = {
+  getAllUsers,
+  getUserById,
+  getAllPosts,
+  getPostById,
+  getCurrentUser,
+  getUserPosts,
+}

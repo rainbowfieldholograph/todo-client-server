@@ -4,7 +4,7 @@ import Search from '../../components/search/Search'
 import Modal from '../../components/modal/Modal'
 import AddForm from '../../components/addForm/AddForm'
 import { useMutation, useQuery } from '@apollo/client'
-import { GET_ALL_POSTS, GET_CURRENT_USER } from '../../graphql/query'
+import { GET_USER_POSTS, GET_CURRENT_USER } from '../../graphql/query'
 import { ADD_NEW_POST, UPDATE_POST } from '../../graphql/mutation'
 import { AuthContext } from '../../context/context'
 import { useHistory } from 'react-router-dom'
@@ -18,11 +18,13 @@ const Home = () => {
 
   const [todos, setTodos] = useState([])
 
-  const { loading } = useQuery(GET_ALL_POSTS, {
-    onCompleted: ({ getAllPosts }) => {
-      setTodos(getAllPosts)
+  const { loading } = useQuery(GET_USER_POSTS, {
+    onCompleted: (data) => {
+      console.log(data)
+      setTodos(data.getUserPosts)
     },
   })
+
   const [addNewPost] = useMutation(ADD_NEW_POST, {
     onCompleted: ({ addPost: newPost }) => {
       console.log('newpost: ', newPost)
@@ -33,6 +35,7 @@ const Home = () => {
 
   const [search, setSearch] = useState('')
   const [modal, setModal] = useState(false)
+  console.log(todos)
 
   const { setIsAuth } = useContext(AuthContext)
 
@@ -77,26 +80,14 @@ const Home = () => {
             completed: completed,
           },
         })
-        window.location.reload()
       } catch (error) {
         alert(error)
       }
     },
     [updatePost]
   )
-
-  const filterItems = () => {
-    return todos
-      ? todos.filter(
-          (item) =>
-            item?.title.toUpperCase().includes(search.toUpperCase()) &
-            (item?.author.id === currentUserData?.getCurrentUser.id)
-        )
-      : []
-  }
-
-  console.log('func. filter items', filterItems())
   console.log('todos: ', todos)
+  console.log('curUser:', currentUserData?.getCurrentUser.id)
 
   if (loading || currentUserLoading) {
     return <Loading />
@@ -123,8 +114,8 @@ const Home = () => {
       </div>
       <h1 className={styles.title}>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>
       <div className={styles.contentBox}>
-        {filterItems()?.length === 0 && <p>Посты не были найдены</p>}
-        {filterItems()?.map((i, index) => {
+        {todos?.length === 0 && <p>Посты не были найдены</p>}
+        {todos?.map((i, index) => {
           return (
             <TodoItem
               todos={todos}
