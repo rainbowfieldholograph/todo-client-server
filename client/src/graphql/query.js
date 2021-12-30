@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const GET_ALL_POSTS = gql`
   {
-    posts {
+    getAllPosts {
       id
       title
       body
@@ -15,7 +15,7 @@ export const GET_ALL_POSTS = gql`
 `
 
 export const GET_ALL_USERS = gql`
-  query users {
+  query getAllUsers {
     id
     username
     password
@@ -28,7 +28,7 @@ export const GET_ALL_USERS = gql`
 `
 
 export const GET_USER = gql`
-  query user {
+  query getUserById {
     id
     username
     password

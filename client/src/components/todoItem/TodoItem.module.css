@@ -23,18 +23,3 @@
   width: 30px;
   height: 30px;
 }
-
-.modalFlexBox {
-  display: flex;
-  justify-content: space-around;
-}
-
-.modalTitle {
-  margin-bottom: 30px;
-}
-
-.modalBtn {
-  padding: 0.5em;
-  font-size: 1.2em;
-  border: 1px solid black;
-}

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import styles from './MyTodos.module.css'
-import Item from '../../components/item/Item'
 import Search from '../../components/search/Search'
 import Modal from '../../components/modal/Modal'
 import AddForm from '../../components/addForm/AddForm'
@@ -10,6 +9,7 @@ import { ADD_NEW_POST, UPDATE_POST } from '../../graphql/mutation'
 import { AuthContext } from '../../context/context'
 import { useHistory } from 'react-router-dom'
 import Loading from '../../components/loading/Loading'
+import TodoItem from '../../components/todoItem/TodoItem'
 
 const Home = () => {
   const history = useHistory()
@@ -19,12 +19,13 @@ const Home = () => {
   const [todos, setTodos] = useState([])
 
   const { loading } = useQuery(GET_ALL_POSTS, {
-    onCompleted: ({ posts }) => {
-      setTodos(posts)
+    onCompleted: ({ getAllPosts }) => {
+      setTodos(getAllPosts)
     },
   })
   const [addNewPost] = useMutation(ADD_NEW_POST, {
     onCompleted: ({ addPost: newPost }) => {
+      console.log('newpost: ', newPost)
       setTodos([...todos, newPost])
     },
   })
@@ -84,17 +85,18 @@ const Home = () => {
     [updatePost]
   )
 
-  console.log('61ccd70f9d023aefafb34aa5' === currentUserData?.getCurrentUser.id)
-
   const filterItems = () => {
-    return todos?.filter(
-      (item) =>
-        item?.title.toUpperCase().includes(search.toUpperCase()) &
-        (item?.author.id === currentUserData?.getCurrentUser.id)
-    )
+    return todos
+      ? todos.filter(
+          (item) =>
+            item?.title.toUpperCase().includes(search.toUpperCase()) &
+            (item?.author.id === currentUserData?.getCurrentUser.id)
+        )
+      : []
   }
 
-  console.log(filterItems())
+  console.log('func. filter items', filterItems())
+  console.log('todos: ', todos)
 
   if (loading || currentUserLoading) {
     return <Loading />
@@ -124,7 +126,9 @@ const Home = () => {
         {filterItems()?.length === 0 && <p>Посты не были найдены</p>}
         {filterItems()?.map((i, index) => {
           return (
-            <Item
+            <TodoItem
+              todos={todos}
+              setTodos={setTodos}
               key={i.id + index}
               postId={i.id}
               title={i.title}

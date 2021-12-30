@@ -4,14 +4,14 @@ const { User, Post } = require('../models')
 
 const jwt = require('jsonwebtoken')
 
-const users = {
+const getAllUsers = {
   type: new GraphQLList(UserType),
   resolve(parent, args) {
     return User.find()
   },
 }
 
-const user = {
+const getUserById = {
   type: UserType,
   args: { id: { type: GraphQLID } },
   resolve(parent, args) {
@@ -26,14 +26,14 @@ const getCurrentUser = {
   },
 }
 
-const posts = {
+const getAllPosts = {
   type: new GraphQLList(PostType),
   resolve() {
     return Post.find()
   },
 }
 
-const post = {
+const getPostById = {
   type: PostType,
   args: { id: { type: GraphQLID } },
   resolve(_, args) {
@@ -41,4 +41,14 @@ const post = {
   },
 }
 
-module.exports = { users, user, posts, post, getCurrentUser }
+const getUserPosts = {
+  type: PostType,
+  args: { id: { type: GraphQLID } },
+  resolve(_, args) {
+    const posts = Post.find()
+    console.log(typeof posts)
+    return
+  },
+}
+
+module.exports = { getAllUsers, getUserById, getAllPosts, getPostById, getCurrentUser }

@@ -15,8 +15,12 @@ export const REGISTER_USER = gql`
 export const ADD_NEW_POST = gql`
   mutation AddNewPost($title: String!, $body: String!, $completed: Boolean!) {
     addPost(title: $title, body: $body, completed: $completed) {
+      id
       title
       body
+      author {
+        id
+      }
     }
   }
 `
