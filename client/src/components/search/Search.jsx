@@ -3,7 +3,6 @@ import styles from './Search.module.css'
 import searchImg from '../../img/search.svg'
 
 const Search = React.memo(function Search({ setSearch, search }) {
-  console.log('render Search')
   return (
     <div className={styles.search}>
       <input

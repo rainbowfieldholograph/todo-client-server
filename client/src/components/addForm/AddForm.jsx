@@ -17,8 +17,6 @@ const AddForm = React.memo(function AddForm({ addNew }) {
     setDesc('')
   }
 
-  console.log('render AddForm')
-
   return (
     <form onSubmit={addNewTask} action="" className={styles.addForm}>
       <div className={styles.box}>

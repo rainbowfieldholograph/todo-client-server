@@ -1,69 +1,32 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState, useCallback } from 'react'
 import styles from './MyTodos.module.css'
 import Search from '../../components/search/Search'
-import Modal from '../../components/modal/Modal'
-import AddForm from '../../components/addForm/AddForm'
 import { useMutation, useQuery } from '@apollo/client'
-import { GET_USER_POSTS, GET_CURRENT_USER } from '../../graphql/query'
-import { ADD_NEW_POST, UPDATE_POST } from '../../graphql/mutation'
+import { GET_USER_POSTS } from '../../graphql/query'
+import { UPDATE_POST } from '../../graphql/mutation'
 import { AuthContext } from '../../context/context'
 import { useHistory } from 'react-router-dom'
 import Loading from '../../components/loading/Loading'
 import TodoItem from '../../components/todoItem/TodoItem'
+import AddNewTodo from '../../components/addNewTodo/AddNewTodo'
 
 const Home = () => {
   const history = useHistory()
 
-  const { data: currentUserData, loading: currentUserLoading } = useQuery(GET_CURRENT_USER)
-
   const [todos, setTodos] = useState([])
+  const [search, setSearch] = useState('')
 
   const { loading } = useQuery(GET_USER_POSTS, {
     onCompleted: (data) => {
-      console.log(data)
       setTodos(data.getUserPosts)
     },
   })
 
-  const [addNewPost] = useMutation(ADD_NEW_POST, {
-    onCompleted: ({ addPost: newPost }) => {
-      console.log('newpost: ', newPost)
-      setTodos([...todos, newPost])
-    },
-  })
   const [updatePost] = useMutation(UPDATE_POST)
-
-  const [search, setSearch] = useState('')
-  const [modal, setModal] = useState(false)
-  console.log(todos)
 
   const { setIsAuth } = useContext(AuthContext)
 
-  const toggleModal = React.useCallback(() => setModal(!modal), [modal])
-  const setSearchText = React.useCallback((text) => setSearch(text), [])
-
-  const addNewTask = React.useCallback(
-    async (title, desc, completed) => {
-      try {
-        await addNewPost({
-          variables: {
-            title: title,
-            body: desc,
-            completed: completed,
-          },
-        })
-        setModal(false)
-      } catch (error) {
-        alert(error)
-        console.log(error)
-      }
-    },
-    [addNewPost]
-  )
-
-  const insideModal = React.useMemo(() => {
-    return <AddForm addNew={addNewTask} />
-  }, [addNewTask])
+  const setSearchText = useCallback((text) => setSearch(text), [])
 
   const onClickLogOut = () => {
     localStorage.removeItem('token')
@@ -71,7 +34,7 @@ const Home = () => {
     setIsAuth(false)
   }
 
-  const onToggleCompleted = React.useCallback(
+  const onToggleCompleted = useCallback(
     async (id, completed) => {
       try {
         await updatePost({
@@ -80,36 +43,29 @@ const Home = () => {
             completed: completed,
           },
         })
+        console.log(id)
+        setTodos(
+          todos.map((todo) => {
+            if (todo.id !== id) return todo
+            return { ...todo, completed: !todo.completed }
+          })
+        )
       } catch (error) {
         alert(error)
       }
     },
-    [updatePost]
+    [updatePost, todos]
   )
-  console.log('todos: ', todos)
-  console.log('curUser:', currentUserData?.getCurrentUser.id)
 
-  if (loading || currentUserLoading) {
-    return <Loading />
-  }
+  if (loading) return <Loading />
 
   return (
     <div className={styles.home}>
-      <Modal visible={modal} setVisible={toggleModal}>
-        {insideModal}
-      </Modal>
       <button className={styles.logoutButton} onClick={onClickLogOut}>
         LOGOUT
       </button>
       <div className={styles.box}>
-        <button
-          onClick={() => {
-            setModal(true)
-          }}
-          className={styles.btn}
-        >
-          Добавить новую задачу
-        </button>
+        <AddNewTodo setTodos={setTodos} todos={todos} />
         <Search search={search} setSearch={setSearchText} />
       </div>
       <h1 className={styles.title}>{search ? `Поиск по запросу: ${search}` : 'Все задачи'}</h1>

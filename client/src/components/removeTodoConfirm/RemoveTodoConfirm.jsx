@@ -3,7 +3,6 @@ import Modal from '../modal/Modal'
 import styles from './RemoveTodoConfirm.module.css'
 
 const RemoveTodoConfirm = ({ modalVisible, setModalVisible, postId, onClickRemove }) => {
-  console.log(postId)
   return (
     <Modal visible={modalVisible} setVisible={setModalVisible}>
       <div>
