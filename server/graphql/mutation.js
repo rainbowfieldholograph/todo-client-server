@@ -100,7 +100,7 @@ const deletePost = {
     postId: { type: GraphQLString },
   },
   async resolve(parent, args, { verifiedUser }) {
-    console.log('deleting post: ', args.postId, verifiedUser._id)
+    console.log('deleting post: ', args.postId, verifiedUser.id)
     const postDeleted = await Post.findOneAndDelete({
       _id: args.postId,
       authorId: verifiedUser.id,
