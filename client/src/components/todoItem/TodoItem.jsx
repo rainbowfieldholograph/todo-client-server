@@ -4,7 +4,7 @@ import styles from './TodoItem.module.css'
 import removeImg from '../../img/remove.png'
 import { REMOVE_POST } from '../../graphql/mutation'
 import { useMutation } from '@apollo/client'
-import RemoveTodoConfirm from '../removeTodoConfirm/RemoveTodoConfirm'
+import RemoveTodoConfirm from '../removeTodo/RemoveTodo'
 
 const TodoItem = React.memo(function Item({
   todos,
