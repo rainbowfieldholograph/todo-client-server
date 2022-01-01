@@ -4,7 +4,7 @@ import styles from './TodoItem.module.css'
 import removeImg from '../../img/remove.png'
 import { REMOVE_POST } from '../../graphql/mutation'
 import { useMutation } from '@apollo/client'
-import RemoveTodoConfirm from '../removeTodo/RemoveTodo'
+import RemoveTodo from '../removeTodo/RemoveTodo'
 
 const TodoItem = React.memo(function Item({
   todos,
@@ -44,7 +44,7 @@ const TodoItem = React.memo(function Item({
         <button onClick={() => setModalConfirm(true)} className={styles.removeBtn}>
           <img src={removeImg} alt="remove" />
         </button>
-        <RemoveTodoConfirm
+        <RemoveTodo
           modalVisible={modalConfirm}
           setModalVisible={setModalConfirm}
           postId={postId}

@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from '../modal/Modal'
 import styles from './RemoveTodo.module.css'
 
-const RemoveTodoConfirm = ({ modalVisible, setModalVisible, postId, onClickRemove }) => {
+const RemoveTodo = ({ modalVisible, setModalVisible, postId, onClickRemove }) => {
   return (
     <Modal visible={modalVisible} setVisible={setModalVisible}>
       <h2 className={styles.modalTitle}>Вы действительно хотите удалить данную задачу?</h2>
@@ -18,4 +18,4 @@ const RemoveTodoConfirm = ({ modalVisible, setModalVisible, postId, onClickRemov
   )
 }
 
-export default RemoveTodoConfirm
+export default RemoveTodo

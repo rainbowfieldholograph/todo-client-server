@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 5000
 
 connectDB()
 
-app.use(authenticate)
 app.use(cors())
+app.use(authenticate)
 
 app.use(
   '/graphql',
