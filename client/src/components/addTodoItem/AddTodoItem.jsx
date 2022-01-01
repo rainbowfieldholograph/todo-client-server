@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { ADD_NEW_POST } from '../../graphql/mutation'
 import AddForm from '../addForm/AddForm'
 import Modal from '../modal/Modal'
-import styles from './AddNewTodo.module.css'
+import styles from './AddTodoItem.module.css'
 
 const AddNewTodo = ({ setTodos, todos }) => {
   const [modal, setModal] = useState(false)
