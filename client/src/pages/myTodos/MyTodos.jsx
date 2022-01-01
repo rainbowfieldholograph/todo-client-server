@@ -1,18 +1,15 @@
-import { useContext, useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import styles from './MyTodos.module.css'
 import Search from '../../components/search/Search'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_USER_POSTS } from '../../graphql/query'
 import { UPDATE_POST } from '../../graphql/mutation'
-import { AuthContext } from '../../context/context'
-import { useHistory } from 'react-router-dom'
 import Loading from '../../components/loading/Loading'
 import TodoItem from '../../components/todoItem/TodoItem'
 import AddNewTodo from '../../components/addNewTodo/AddNewTodo'
+import Logout from '../../components/logout/Logout'
 
 const Home = () => {
-  const history = useHistory()
-
   const [todos, setTodos] = useState([])
   const [search, setSearch] = useState('')
 
@@ -24,15 +21,7 @@ const Home = () => {
 
   const [updatePost] = useMutation(UPDATE_POST)
 
-  const { setIsAuth } = useContext(AuthContext)
-
   const setSearchText = useCallback((text) => setSearch(text), [])
-
-  const onClickLogOut = () => {
-    localStorage.removeItem('token')
-    history.push('/')
-    setIsAuth(false)
-  }
 
   const onToggleCompleted = useCallback(
     async (id, completed) => {
@@ -61,9 +50,7 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <button className={styles.logoutButton} onClick={onClickLogOut}>
-        LOGOUT
-      </button>
+      <Logout />
       <div className={styles.box}>
         <AddNewTodo setTodos={setTodos} todos={todos} />
         <Search search={search} setSearch={setSearchText} />
