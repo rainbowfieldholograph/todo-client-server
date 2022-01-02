@@ -1,8 +1,8 @@
-import React from 'react'
 import styles from './Search.module.css'
 import searchImg from '../../img/search.svg'
+import { memo } from 'react'
 
-const Search = React.memo(function Search({ setSearch, search }) {
+const Search = memo(function Search({ setSearch, search }) {
   return (
     <div className={styles.search}>
       <input

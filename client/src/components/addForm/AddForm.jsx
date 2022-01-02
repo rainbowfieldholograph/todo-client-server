@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import { memo, useState } from 'react'
 import styles from './AddForm.module.css'
 
-const AddForm = React.memo(function AddForm({ addNew }) {
+const AddForm = memo(function AddForm({ addNew }) {
   const [title, setTitle] = useState('')
   const [desc, setDesc] = useState('')
 

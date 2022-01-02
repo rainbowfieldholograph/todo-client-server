@@ -1,7 +1,7 @@
-import React from 'react'
+import { memo } from 'react'
 import styles from './Modal.module.css'
 
-const Modal = React.memo(function Modal({ children, visible, setVisible }) {
+const Modal = memo(function Modal({ children, visible, setVisible }) {
   return (
     <div
       onClick={() => {

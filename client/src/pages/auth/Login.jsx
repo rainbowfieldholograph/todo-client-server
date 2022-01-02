@@ -1,25 +1,28 @@
 import { useMutation } from '@apollo/client'
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { AuthContext } from '../../context/context'
 import { LOGIN_USER } from '../../graphql/mutation'
-import styles from './Auth.module.css'
+import AuthInput from '../../components/authInput/AuthInput'
+import AuthButton from '../../components/authButton/AuthButton'
+import AuthContainer from '../../components/authContainer/AuthContainer'
 
 const Login = () => {
-  const [loginUser] = useMutation(LOGIN_USER)
-
+  const [loginUser, { loading }] = useMutation(LOGIN_USER)
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
-
   const history = useHistory()
+  const { setIsAuth } = useContext(AuthContext)
 
-  const onSubmit = async (e) => {
-    e.preventDefault()
+  const onSubmit = async (event) => {
+    event.preventDefault()
     try {
       const { data } = await loginUser({
         variables: { username: login, password: password },
       })
       localStorage.setItem('token', data.login)
-      history.go('/home')
+      setIsAuth(true)
+      history.push('/home')
     } catch (error) {
       alert('Ошибка')
       console.log(error)
@@ -27,37 +30,29 @@ const Login = () => {
   }
 
   return (
-    <div className={styles.container}>
-      <form className={styles.box} onSubmit={onSubmit} action="">
-        <h1>Login</h1>
-        <input
-          id="login"
-          name="login"
-          required
-          value={login}
-          onChange={(e) => setLogin(e.target.value)}
-          className={styles.input}
-          type="text"
-          placeholder="Enter your login"
-        />
-        <input
-          id="password"
-          name="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={styles.input}
-          type="password"
-          placeholder="Enter your password"
-        />
-        <button type="submit" className={styles.btn}>
-          Confirm
-        </button>
-        <Link to="/registration">
-          <button className={styles.btn}>Registration</button>
-        </Link>
-      </form>
-    </div>
+    <AuthContainer onSubmit={onSubmit}>
+      <AuthInput
+        id="login"
+        label="Login"
+        value={login}
+        onChange={(event) => setLogin(event.target.value)}
+        disabled={loading}
+      />
+      <AuthInput
+        id="password"
+        label="Password"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
+        disabled={loading}
+        type="password"
+      />
+      <AuthButton type="submit" disabled={loading}>
+        Confirm
+      </AuthButton>
+      <AuthButton disabled={loading}>
+        <Link to="/registration">Registration</Link>
+      </AuthButton>
+    </AuthContainer>
   )
 }
 

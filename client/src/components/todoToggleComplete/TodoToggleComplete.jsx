@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { UPDATE_POST } from '../../graphql/mutation'
 import styles from './TodoToggleComplete.module.css'
 
@@ -35,7 +35,7 @@ const TodoToggleComplete = ({ id, completed, todos, setTodos }) => {
     >
       <div
         className={completed ? [styles.innerCircle, styles.clicked].join(' ') : styles.innerCircle}
-      ></div>
+      />
     </button>
   )
 }

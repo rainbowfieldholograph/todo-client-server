@@ -1,9 +1,9 @@
-import React from 'react'
 import TodoToggleComplete from '../todoToggleComplete/TodoToggleComplete'
 import styles from './TodoItem.module.css'
 import RemoveTodoItem from '../removeTodoItem/RemoveTodoItem'
+import { memo } from 'react'
 
-const TodoItem = React.memo(function Item({
+const TodoItem = memo(function Item({
   todos,
   setTodos,
   postId,
