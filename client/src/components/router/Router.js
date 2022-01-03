@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import MyTodos from '../../pages/myTodos/MyTodos'
-import Registration from '../../pages/auth/Registration'
-import Login from '../../pages/auth/Login'
+import Registration from '../../pages/registration/Registration'
+import Login from '../../pages/login/Login'
 import { AuthContext } from '../../context/context'
 import Header from '../header/Header'
 

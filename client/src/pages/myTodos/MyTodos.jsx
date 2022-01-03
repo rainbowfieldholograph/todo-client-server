@@ -20,6 +20,9 @@ const Home = () => {
 
   const setSearchText = useCallback((text) => setSearch(text), [])
 
+  const searchTodos = () =>
+    todos?.filter((todo) => todo?.title?.toUpperCase().includes(search.toUpperCase()))
+
   if (loading)
     return (
       <Box sx={{ height: '50vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -46,10 +49,10 @@ const Home = () => {
       <Stack spacing={1}>
         {todos?.length === 0 && (
           <Typography variant="h5" component="p" textAlign="center">
-            Посты не были найдены
+            Todos not found.
           </Typography>
         )}
-        {todos?.map((todo) => {
+        {searchTodos()?.map((todo) => {
           return (
             <TodoItem
               todos={todos}
