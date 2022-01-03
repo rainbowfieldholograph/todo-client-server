@@ -13,7 +13,14 @@ const TodoItem = memo(function Item({
   onToggleCompleted,
 }) {
   return (
-    <Box sx={{ border: '2px solid lightskyblue', padding: '1rem', wordWrap: 'break-word' }}>
+    <Box
+      sx={{
+        border: '2px solid',
+        borderColor: 'primary.main',
+        padding: '1rem',
+        wordWrap: 'break-word',
+      }}
+    >
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <TodoToggleComplete
           id={postId}

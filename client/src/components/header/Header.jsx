@@ -10,15 +10,15 @@ const Header = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'lightskyblue',
+        backgroundColor: 'primary.main',
         padding: '1rem',
       }}
       component="header"
     >
-      <Typography component="p" variant="h5">
+      <Typography component="p" variant="h5" color="whitesmoke">
         Maybetomorrow
       </Typography>
-      <Typography component="p" variant="h5">
+      <Typography component="p" variant="h5" color="whitesmoke">
         {data?.getCurrentUser?.username}
       </Typography>
     </Box>
