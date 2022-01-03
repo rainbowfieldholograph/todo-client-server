@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client'
-import { Button } from '@mui/material'
+import { Alert, Button, Snackbar } from '@mui/material'
 import { useCallback, useState } from 'react'
 import { ADD_NEW_POST } from '../../graphql/mutation'
 import AddForm from '../addForm/AddForm'
@@ -7,6 +7,7 @@ import MyModal from '../myModal/MyModal'
 
 const AddNewTodo = ({ setTodos, todos }) => {
   const [modal, setModal] = useState(false)
+  const [alert, setAlert] = useState(false)
 
   const [addNewPost, { loading }] = useMutation(ADD_NEW_POST, {
     onCompleted: ({ addPost: newPost }) => {
@@ -26,7 +27,7 @@ const AddNewTodo = ({ setTodos, todos }) => {
           },
         })
       } catch (error) {
-        alert(error)
+        setAlert(true)
         console.log(error)
       }
     },
@@ -41,6 +42,11 @@ const AddNewTodo = ({ setTodos, todos }) => {
       <MyModal open={modal} onClose={() => setModal(false)}>
         <AddForm addNew={addNewTask} loading={loading} />
       </MyModal>
+      <Snackbar open={alert} onClose={() => setAlert(false)} autoHideDuration={3000}>
+        <Alert onClose={() => setAlert(false)} sx={{ width: '100%' }} severity="error">
+          Error!
+        </Alert>
+      </Snackbar>
     </>
   )
 }
