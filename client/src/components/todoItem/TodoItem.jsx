@@ -1,7 +1,7 @@
 import TodoToggleComplete from '../todoToggleComplete/TodoToggleComplete'
-import styles from './TodoItem.module.css'
 import RemoveTodoItem from '../removeTodoItem/RemoveTodoItem'
 import { memo } from 'react'
+import { Box, Typography } from '@mui/material'
 
 const TodoItem = memo(function Item({
   todos,
@@ -13,8 +13,8 @@ const TodoItem = memo(function Item({
   onToggleCompleted,
 }) {
   return (
-    <div className={styles.box}>
-      <div className={styles.flexBox}>
+    <Box sx={{ border: '2px solid lightskyblue', padding: '1rem', wordWrap: 'break-word' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <TodoToggleComplete
           id={postId}
           onToggleCompleted={onToggleCompleted}
@@ -22,13 +22,25 @@ const TodoItem = memo(function Item({
           todos={todos}
           setTodos={setTodos}
         />
-        <div className={styles.infoBox}>
-          <h2>{completed ? <del>{title}</del> : title}</h2>
-          <div className={styles.descr}>{completed ? <del>{desc}</del> : desc}</div>
-        </div>
+        <Box
+          sx={{
+            flex: 1,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}
+        >
+          <Typography component="p" variant="h5">
+            {completed ? <del>{title}</del> : title}
+          </Typography>
+          <Typography component="p" variant="h6">
+            {completed ? <del>{desc}</del> : desc}
+          </Typography>
+        </Box>
         <RemoveTodoItem todos={todos} setTodos={setTodos} postId={postId} />
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 })
 

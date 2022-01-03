@@ -10,7 +10,7 @@ const Header = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'rgb(25, 120, 250)',
+        backgroundColor: 'lightskyblue',
         padding: '1rem',
       }}
       component="header"

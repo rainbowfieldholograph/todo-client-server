@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client'
+import { Checkbox } from '@mui/material'
 import { useCallback } from 'react'
 import { UPDATE_POST } from '../../graphql/mutation'
-import styles from './TodoToggleComplete.module.css'
 
 const TodoToggleComplete = ({ id, completed, todos, setTodos }) => {
   const [updatePost, { loading }] = useMutation(UPDATE_POST)
@@ -28,15 +28,12 @@ const TodoToggleComplete = ({ id, completed, todos, setTodos }) => {
   )
 
   return (
-    <button
-      disabled={loading ? true : false}
-      className={styles.circle}
+    <Checkbox
+      size="large"
+      checked={completed}
+      disabled={loading}
       onClick={() => onToggleCompleted(id, !completed)}
-    >
-      <div
-        className={completed ? [styles.innerCircle, styles.clicked].join(' ') : styles.innerCircle}
-      />
-    </button>
+    />
   )
 }
 
