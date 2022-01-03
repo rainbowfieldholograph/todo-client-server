@@ -1,20 +1,33 @@
-import styles from './Search.module.css'
-import searchImg from '../../img/search.svg'
 import { memo } from 'react'
+import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 
 const Search = memo(function Search({ setSearch, search }) {
   return (
-    <div className={styles.search}>
-      <input
+    // <div className={styles.search}>
+    //   <input
+    //     value={search}
+    //     onChange={(e) => {
+    //       setSearch(e.target.value)
+    //     }}
+    //     className={styles.input}
+    //     type="text"
+    //   />
+    //   <img width={20} height={20} src={searchImg} alt="search" />
+    // </div>
+    <FormControl variant="standard" sx={{ maxWidth: 300, width: '100%' }}>
+      <InputLabel htmlFor="input-with-icon-adornment">Search for todos</InputLabel>
+      <Input
+        id="input-with-icon-adornment"
         value={search}
-        onChange={(e) => {
-          setSearch(e.target.value)
-        }}
-        className={styles.input}
-        type="text"
+        onChange={(event) => setSearch(event.target.value)}
+        startAdornment={
+          <InputAdornment position="start">
+            <SearchIcon color="primary" fontSize="large" />
+          </InputAdornment>
+        }
       />
-      <img width={20} height={20} src={searchImg} alt="search" />
-    </div>
+    </FormControl>
   )
 })
 

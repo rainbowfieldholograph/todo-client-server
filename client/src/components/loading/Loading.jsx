@@ -1,11 +1,5 @@
-import styles from './Loading.module.css'
+import { CircularProgress } from '@mui/material'
 
-const Loading = () => {
-  return (
-    <div className={styles.wrapper}>
-      <h1>Loading...</h1>
-    </div>
-  )
-}
+const Loading = () => <CircularProgress size={150} />
 
 export default Loading

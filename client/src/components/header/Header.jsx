@@ -1,18 +1,27 @@
 import { useQuery } from '@apollo/client'
+import { Box, Typography } from '@mui/material'
 import { GET_CURRENT_USER } from '../../graphql/query'
-import styles from './Header.module.css'
 
 const Header = () => {
   const { data } = useQuery(GET_CURRENT_USER)
   return (
-    <header className={styles.header}>
-      <div>
-        <h1>Maybetomorrow</h1>
-      </div>
-      <div>
-        <h1>{data?.getCurrentUser?.username}</h1>
-      </div>
-    </header>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'rgb(25, 120, 250)',
+        padding: '1rem',
+      }}
+      component="header"
+    >
+      <Typography component="p" variant="h5">
+        Maybetomorrow
+      </Typography>
+      <Typography component="p" variant="h5">
+        {data?.getCurrentUser?.username}
+      </Typography>
+    </Box>
   )
 }
 

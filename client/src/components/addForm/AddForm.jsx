@@ -1,57 +1,49 @@
+import { Box, Button, TextField, Typography } from '@mui/material'
 import { memo, useState } from 'react'
-import styles from './AddForm.module.css'
 
-const AddForm = memo(function AddForm({ addNew }) {
+const AddForm = memo(function AddForm({ addNew, loading }) {
   const [title, setTitle] = useState('')
   const [desc, setDesc] = useState('')
 
-  const addNewTask = async (e) => {
-    e.preventDefault()
-    try {
-      await addNew(title, desc, false)
-    } catch (error) {
-      alert('Ошибка')
-      console.log(error)
-    }
-    setTitle('')
-    setDesc('')
+  const addNewTask = async (event) => {
+    event.preventDefault()
+    await addNew(title, desc, false)
   }
 
   return (
-    <form onSubmit={addNewTask} action="" className={styles.addForm}>
-      <div className={styles.box}>
-        <label htmlFor="title" className={styles.title}>
-          Введите название:
-        </label>
-        <input
-          id="title"
-          name="title"
-          required
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={styles.input}
-          type="text"
-        />
-      </div>
-      <div className={styles.box}>
-        <label htmlFor="description" className={styles.title}>
-          Введите описание:
-        </label>
-        <textarea
-          className={styles.textarea}
-          onChange={(e) => setDesc(e.target.value)}
-          required
-          value={desc}
-          name="description"
-          id="description"
-          cols="30"
-          rows="10"
-        ></textarea>
-      </div>
-      <button type="submit" className={styles.btn}>
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.7rem' }}
+      component="form"
+      onSubmit={addNewTask}
+      action=""
+    >
+      <Typography component="p" variant="h5">
+        Add new Todo
+      </Typography>
+      <TextField
+        label="Title"
+        id="todo-title"
+        required
+        value={title}
+        onChange={(event) => setTitle(event.target.value)}
+        sx={{ maxWidth: 400, width: '100%' }}
+        disabled={loading}
+      />
+      <TextField
+        id="todo-description"
+        onChange={(event) => setDesc(event.target.value)}
+        required
+        value={desc}
+        label="Description"
+        multiline
+        maxRows={6}
+        sx={{ maxWidth: 400, width: '100%' }}
+        disabled={loading}
+      />
+      <Button disabled={loading} variant="contained" type="submit">
         Создать задачу
-      </button>
-    </form>
+      </Button>
+    </Box>
   )
 })
 

@@ -1,7 +1,7 @@
+import { Button } from '@mui/material'
 import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../../context/context'
-import styles from './Logout.module.css'
 
 const Logout = () => {
   const { setIsAuth } = useContext(AuthContext)
@@ -14,9 +14,13 @@ const Logout = () => {
   }
 
   return (
-    <button className={styles.logoutButton} onClick={onClickLogOut}>
+    <Button
+      sx={{ display: 'block', marginLeft: 'auto' }}
+      variant="outlined"
+      onClick={onClickLogOut}
+    >
       LOGOUT
-    </button>
+    </Button>
   )
 }
 

@@ -1,17 +1,17 @@
 import { useMutation } from '@apollo/client'
+import { Button } from '@mui/material'
 import { useCallback, useState } from 'react'
 import { ADD_NEW_POST } from '../../graphql/mutation'
 import AddForm from '../addForm/AddForm'
-import Modal from '../modal/Modal'
-import styles from './AddTodoItem.module.css'
+import MyModal from '../myModal/MyModal'
 
 const AddNewTodo = ({ setTodos, todos }) => {
   const [modal, setModal] = useState(false)
-  const toggleModal = useCallback(() => setModal(!modal), [modal])
 
-  const [addNewPost] = useMutation(ADD_NEW_POST, {
+  const [addNewPost, { loading }] = useMutation(ADD_NEW_POST, {
     onCompleted: ({ addPost: newPost }) => {
       setTodos([...todos, newPost])
+      setModal(false)
     },
   })
 
@@ -25,23 +25,22 @@ const AddNewTodo = ({ setTodos, todos }) => {
             completed: completed,
           },
         })
-        toggleModal(modal)
       } catch (error) {
         alert(error)
         console.log(error)
       }
     },
-    [addNewPost, toggleModal, modal]
+    [addNewPost]
   )
 
   return (
     <>
-      <button onClick={() => toggleModal(true)} className={styles.btn}>
+      <Button variant="contained" onClick={() => setModal(true)}>
         Добавить новую задачу
-      </button>
-      <Modal visible={modal} setVisible={toggleModal}>
-        <AddForm addNew={addNewTask} />
-      </Modal>
+      </Button>
+      <MyModal open={modal} onClose={() => setModal(false)}>
+        <AddForm addNew={addNewTask} loading={loading} />
+      </MyModal>
     </>
   )
 }

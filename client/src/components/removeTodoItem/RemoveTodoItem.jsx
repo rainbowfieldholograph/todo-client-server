@@ -1,12 +1,13 @@
 import { useMutation } from '@apollo/client'
 import { useState } from 'react'
 import { REMOVE_POST } from '../../graphql/mutation'
-import Modal from '../modal/Modal'
-import styles from './RemoveTodoItem.module.css'
-import removeImg from '../../img/remove.png'
+import { IconButton } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
+import MyModal from '../myModal/MyModal'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const RemoveTodoItem = ({ postId, todos, setTodos }) => {
-  const [removePost] = useMutation(REMOVE_POST)
+  const [removePost, { loading }] = useMutation(REMOVE_POST)
   const [modal, setModal] = useState(false)
 
   const onClickRemove = async (id) => {
@@ -26,20 +27,22 @@ const RemoveTodoItem = ({ postId, todos, setTodos }) => {
 
   return (
     <>
-      <button onClick={() => setModal(true)} className={styles.removeBtn}>
-        <img src={removeImg} alt="remove" />
-      </button>
-      <Modal visible={modal} setVisible={setModal}>
-        <h2 className={styles.modalTitle}>Вы действительно хотите удалить данную задачу?</h2>
-        <div className={styles.modalFlexBox}>
-          <button className={styles.modalBtn} onClick={() => onClickRemove(postId)}>
+      <IconButton aria-label="delete" onClick={() => setModal(true)}>
+        <DeleteIcon color="primary" fontSize="large" />
+      </IconButton>
+      <MyModal open={modal} onClose={() => setModal(false)}>
+        <Typography sx={{ mb: '1em', textAlign: 'center' }} variant="h5" component="p">
+          Вы действительно хотите удалить данную задачу?
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+          <Button disabled={loading} variant="contained" onClick={() => onClickRemove(postId)}>
             Удалить
-          </button>
-          <button className={styles.modalBtn} onClick={() => setModal(false)}>
+          </Button>
+          <Button variant="contained" onClick={() => setModal(false)}>
             Отменить
-          </button>
-        </div>
-      </Modal>
+          </Button>
+        </Box>
+      </MyModal>
     </>
   )
 }
