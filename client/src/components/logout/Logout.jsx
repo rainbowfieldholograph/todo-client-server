@@ -14,11 +14,7 @@ const Logout = () => {
   }
 
   return (
-    <Button
-      sx={{ display: 'block', marginLeft: 'auto' }}
-      variant="outlined"
-      onClick={onClickLogOut}
-    >
+    <Button variant="outlined" onClick={onClickLogOut}>
       LOGOUT
     </Button>
   )
