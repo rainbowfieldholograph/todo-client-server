@@ -31,6 +31,7 @@ const Login = () => {
 
   return (
     <AuthContainer onSubmit={onSubmit}>
+      <h2>Login</h2>
       <AuthInput
         id="login"
         label="Login"
