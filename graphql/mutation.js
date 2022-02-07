@@ -14,7 +14,6 @@ const register = {
     const { username, password } = args
     const user = new User({ username, password })
     await user.save()
-    console.log('USER', user)
     const token = createJwtToken(user._id, user.username)
     return token
   },
@@ -28,7 +27,6 @@ const login = {
   },
   async resolve(parent, args) {
     const user = await User.findOne({ username: args.username }).select('+password')
-    console.log('USER', user)
     if (!user || args.password !== user.password) {
       throw new Error('Invalid credentials')
     }
@@ -45,7 +43,6 @@ const addPost = {
     completed: { type: GraphQLBoolean },
   },
   resolve(parent, args, { verifiedUser }) {
-    console.log('Verified User: ', verifiedUser)
     if (!verifiedUser) {
       throw new Error('Unauthorized')
     }
@@ -100,7 +97,6 @@ const deletePost = {
     postId: { type: GraphQLString },
   },
   async resolve(parent, args, { verifiedUser }) {
-    console.log('deleting post: ', args.postId, verifiedUser.id)
     const postDeleted = await Post.findOneAndDelete({
       _id: args.postId,
       authorId: verifiedUser.id,
