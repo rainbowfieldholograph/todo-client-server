@@ -26,6 +26,7 @@ const AuthContainer = ({ children, onSubmit }) => {
           gap: '1.2rem',
           border: '1px solid rgba(0,0,0,0.3)',
           padding: '1rem',
+          borderRadius: '0.5rem',
         }}
       >
         {children}
