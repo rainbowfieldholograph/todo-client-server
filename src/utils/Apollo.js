@@ -2,7 +2,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
 const httpLink = createHttpLink({
-  uri: 'https://maybetomorrow-server.herokuapp.com/graphql',
+  uri: `${process.env.REACT_APP_SERVER_URL}`,
 })
 
 const defaultOptions = {
