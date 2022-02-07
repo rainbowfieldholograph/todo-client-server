@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { useContext } from 'react'
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom'
 import MyTodos from '../../pages/myTodos/MyTodos'
 import Registration from '../../pages/registration/Registration'
 import Login from '../../pages/login/Login'
@@ -10,7 +10,7 @@ const Router = () => {
   const { isAuth } = useContext(AuthContext)
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       {isAuth ? (
         <>
           <Header />
@@ -32,7 +32,7 @@ const Router = () => {
           <Redirect to="/" />
         </Switch>
       )}
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

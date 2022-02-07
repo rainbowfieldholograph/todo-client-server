@@ -2,11 +2,23 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
 const httpLink = createHttpLink({
-  uri: 'https://maybetomorrow-server.herokuapp.com/graphql',
+  uri: 'http://localhost:4000/graphql',
 })
+
+const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  },
+}
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('token')
+  console.log('Apollo Token: ', token)
   return {
     headers: {
       ...headers,
@@ -18,6 +30,7 @@ const authLink = setContext((_, { headers }) => {
 const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  defaultOptions: defaultOptions,
 })
 
 export default apolloClient

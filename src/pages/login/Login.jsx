@@ -13,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const history = useHistory()
   const { setIsAuth } = useContext(AuthContext)
+  console.log(localStorage.getItem('token'))
 
   const onSubmit = async (event) => {
     event.preventDefault()
@@ -20,8 +21,9 @@ const Login = () => {
       const { data } = await loginUser({
         variables: { username: login, password: password },
       })
+      console.log('login data: ', data)
       localStorage.setItem('token', data.login)
-      setIsAuth(true)
+      if (localStorage.getItem('token')) setIsAuth(true)
       history.push('/home')
     } catch (error) {
       alert('Ошибка')

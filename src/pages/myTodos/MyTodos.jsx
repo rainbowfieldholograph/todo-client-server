@@ -21,6 +21,8 @@ const Home = () => {
 
   const setSearchText = useCallback((text) => setSearch(text), [])
 
+  console.log(userData, localStorage.getItem('token'))
+
   const searchTodos = () =>
     todos?.filter((todo) => todo?.title?.toUpperCase().includes(search.toUpperCase()))
 
@@ -34,7 +36,14 @@ const Home = () => {
 
   if (todosLoading || userLoading)
     return (
-      <Box sx={{ height: '50vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box
+        sx={{
+          height: '50vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <CircularProgress size={150} />
       </Box>
     )
