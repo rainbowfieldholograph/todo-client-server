@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { IconButton } from '@mui/material';
 import { Box, Button, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import MyModal from '../myModal/MyModal';
+import Modal from '../modal/MyModal';
 import { REMOVE_POST } from '../../graphql/mutation';
 
 const RemoveTodoItem = ({ postId, todos, setTodos }) => {
@@ -18,10 +18,11 @@ const RemoveTodoItem = ({ postId, todos, setTodos }) => {
         },
       });
       setModal(false);
-      setTodos(todos.filter((todo) => todo.id !== id));
+      const filteredTodos = todos.filter((todo) => todo.id !== id);
+      setTodos(filteredTodos);
     } catch (error) {
-      alert('Ошибка');
-      console.log(error);
+      alert('Error');
+      console.error(error);
     }
   };
 
@@ -30,19 +31,27 @@ const RemoveTodoItem = ({ postId, todos, setTodos }) => {
       <IconButton aria-label="delete" onClick={() => setModal(true)}>
         <DeleteIcon color="primary" fontSize="large" />
       </IconButton>
-      <MyModal open={modal} onClose={() => setModal(false)}>
-        <Typography sx={{ mb: '1em', textAlign: 'center' }} variant="h5" component="p">
-          Вы действительно хотите удалить данную задачу?
+      <Modal open={modal} onClose={() => setModal(false)}>
+        <Typography
+          sx={{ mb: '1em', textAlign: 'center' }}
+          variant="h5"
+          component="p"
+        >
+          Are you sure you want to delete this todo?
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-          <Button disabled={loading} variant="contained" onClick={() => onClickRemove(postId)}>
-            Удалить
+          <Button
+            disabled={loading}
+            variant="contained"
+            onClick={() => onClickRemove(postId)}
+          >
+            Delete
           </Button>
           <Button variant="contained" onClick={() => setModal(false)}>
-            Отменить
+            Cancel
           </Button>
         </Box>
-      </MyModal>
+      </Modal>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { useHistory } from 'react-router';
-import AuthButton from '../../components/authButton/AuthButton';
+import { Button } from '@mui/material';
 import AuthContainer from '../../components/authContainer/AuthContainer';
 import AuthInput from '../../components/authInput/AuthInput';
 import { REGISTER_USER } from '../../graphql/mutation';
@@ -24,7 +24,7 @@ const Registration = () => {
       history.push('/');
     } catch (error) {
       alert('Ошибка');
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -46,9 +46,9 @@ const Registration = () => {
         disabled={loading}
         type="password"
       />
-      <AuthButton type="submit" disabled={loading}>
+      <Button type="submit" variant="contained" disabled={loading} size="large">
         Create account
-      </AuthButton>
+      </Button>
     </AuthContainer>
   );
 };

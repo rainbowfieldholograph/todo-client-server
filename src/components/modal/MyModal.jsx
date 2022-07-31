@@ -1,8 +1,8 @@
-import { Box, Modal } from '@mui/material';
+import { Box, Modal as MaterialModal } from '@mui/material';
 
-const MyModal = ({ children, open, onClose }) => {
+const Modal = ({ children, open, onClose }) => {
   return (
-    <Modal open={open} onClose={onClose}>
+    <MaterialModal open={open} onClose={onClose}>
       <Box
         sx={{
           width: '100%',
@@ -21,8 +21,8 @@ const MyModal = ({ children, open, onClose }) => {
       >
         {children}
       </Box>
-    </Modal>
+    </MaterialModal>
   );
 };
 
-export default MyModal;
+export default Modal;

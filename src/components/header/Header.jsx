@@ -11,7 +11,7 @@ const Header = () => {
       component="header"
     >
       <Typography component="p" variant="h5" color="whitesmoke">
-        Maybetomorrow
+        Maybe Tomorrow
       </Typography>
     </Box>
   );

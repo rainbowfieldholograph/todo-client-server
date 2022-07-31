@@ -1,49 +1,54 @@
 import { useMutation } from '@apollo/client';
 import { Alert, Button, Snackbar } from '@mui/material';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { ADD_NEW_POST } from '../../graphql/mutation';
 import AddForm from '../addForm/AddForm';
-import MyModal from '../myModal/MyModal';
+import Modal from '../modal/MyModal';
 
 const AddNewTodo = ({ setTodos, todos }) => {
   const [modal, setModal] = useState(false);
   const [alert, setAlert] = useState(false);
 
-  const [addNewPost, { loading }] = useMutation(ADD_NEW_POST, {
-    onCompleted: ({ addPost: newPost }) => {
-      setTodos([...todos, newPost]);
-      setModal(false);
-    },
-  });
+  const [addNewPost, { loading }] = useMutation(ADD_NEW_POST);
 
-  const addNewTask = useCallback(
-    async (title, desc, completed) => {
-      try {
-        await addNewPost({
-          variables: {
-            title: title,
-            body: desc,
-            completed: completed,
-          },
-        });
-      } catch (error) {
-        setAlert(true);
-        console.log(error);
-      }
-    },
-    [addNewPost]
-  );
+  const addNewTask = async (title, desc, completed) => {
+    try {
+      const {
+        data: { addPost: newTodo },
+      } = await addNewPost({
+        variables: {
+          title: title,
+          body: desc,
+          completed: completed,
+        },
+      });
+
+      setTodos([...todos, newTodo]);
+      setModal(false);
+    } catch (error) {
+      setAlert(true);
+      console.error(error);
+    }
+  };
 
   return (
     <>
       <Button variant="contained" onClick={() => setModal(true)}>
-        Добавить новую задачу
+        Add new todo
       </Button>
-      <MyModal open={modal} onClose={() => setModal(false)}>
+      <Modal open={modal} onClose={() => setModal(false)}>
         <AddForm addNew={addNewTask} loading={loading} />
-      </MyModal>
-      <Snackbar open={alert} onClose={() => setAlert(false)} autoHideDuration={3000}>
-        <Alert onClose={() => setAlert(false)} sx={{ width: '100%' }} severity="error">
+      </Modal>
+      <Snackbar
+        open={alert}
+        onClose={() => setAlert(false)}
+        autoHideDuration={3000}
+      >
+        <Alert
+          onClose={() => setAlert(false)}
+          sx={{ width: '100%' }}
+          severity="error"
+        >
           Error!
         </Alert>
       </Snackbar>
