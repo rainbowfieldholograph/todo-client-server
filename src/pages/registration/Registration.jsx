@@ -1,32 +1,32 @@
-import { useMutation } from '@apollo/client'
-import { useState } from 'react'
-import { useHistory } from 'react-router'
-import AuthButton from '../../components/authButton/AuthButton'
-import AuthContainer from '../../components/authContainer/AuthContainer'
-import AuthInput from '../../components/authInput/AuthInput'
-import { REGISTER_USER } from '../../graphql/mutation'
+import { useMutation } from '@apollo/client';
+import { useState } from 'react';
+import { useHistory } from 'react-router';
+import AuthButton from '../../components/authButton/AuthButton';
+import AuthContainer from '../../components/authContainer/AuthContainer';
+import AuthInput from '../../components/authInput/AuthInput';
+import { REGISTER_USER } from '../../graphql/mutation';
 
 const Registration = () => {
-  const [login, setLogin] = useState('')
-  const [password, setPassword] = useState('')
-  const [registerUser, { loading }] = useMutation(REGISTER_USER)
-  const history = useHistory()
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [registerUser, { loading }] = useMutation(REGISTER_USER);
+  const history = useHistory();
 
   const onSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
       await registerUser({
         variables: {
           username: login,
           password: password,
         },
-      })
-      history.push('/')
+      });
+      history.push('/');
     } catch (error) {
-      alert('Ошибка')
-      console.log(error)
+      alert('Ошибка');
+      console.log(error);
     }
-  }
+  };
 
   return (
     <AuthContainer onSubmit={onSubmit}>
@@ -50,7 +50,7 @@ const Registration = () => {
         Create account
       </AuthButton>
     </AuthContainer>
-  )
-}
+  );
+};
 
-export default Registration
+export default Registration;

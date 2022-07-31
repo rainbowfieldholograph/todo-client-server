@@ -1,4 +1,4 @@
-import { Box, Modal } from '@mui/material'
+import { Box, Modal } from '@mui/material';
 
 const MyModal = ({ children, open, onClose }) => {
   return (
@@ -22,7 +22,7 @@ const MyModal = ({ children, open, onClose }) => {
         {children}
       </Box>
     </Modal>
-  )
-}
+  );
+};
 
-export default MyModal
+export default MyModal;

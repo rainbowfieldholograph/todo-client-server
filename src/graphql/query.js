@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const GET_ALL_POSTS = gql`
   {
@@ -12,7 +12,7 @@ export const GET_ALL_POSTS = gql`
       }
     }
   }
-`
+`;
 
 export const GET_ALL_USERS = gql`
   query getAllUsers {
@@ -25,7 +25,7 @@ export const GET_ALL_USERS = gql`
       body
     }
   }
-`
+`;
 
 export const GET_USER = gql`
   query getUserById {
@@ -38,7 +38,7 @@ export const GET_USER = gql`
       body
     }
   }
-`
+`;
 
 export const GET_CURRENT_USER = gql`
   {
@@ -47,7 +47,7 @@ export const GET_CURRENT_USER = gql`
       username
     }
   }
-`
+`;
 
 export const GET_USER_POSTS = gql`
   {
@@ -61,4 +61,4 @@ export const GET_USER_POSTS = gql`
       }
     }
   }
-`
+`;

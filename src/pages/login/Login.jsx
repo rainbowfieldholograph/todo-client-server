@@ -1,35 +1,35 @@
-import { useMutation } from '@apollo/client'
-import { useContext, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { AuthContext } from '../../context/context'
-import { LOGIN_USER } from '../../graphql/mutation'
-import AuthInput from '../../components/authInput/AuthInput'
-import AuthButton from '../../components/authButton/AuthButton'
-import AuthContainer from '../../components/authContainer/AuthContainer'
+import { useMutation } from '@apollo/client';
+import { useContext, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { AuthContext } from '../../context/context';
+import { LOGIN_USER } from '../../graphql/mutation';
+import AuthInput from '../../components/authInput/AuthInput';
+import AuthButton from '../../components/authButton/AuthButton';
+import AuthContainer from '../../components/authContainer/AuthContainer';
 
 const Login = () => {
-  const [loginUser, { loading }] = useMutation(LOGIN_USER)
-  const [login, setLogin] = useState('')
-  const [password, setPassword] = useState('')
-  const history = useHistory()
-  const { setIsAuth } = useContext(AuthContext)
-  console.log(localStorage.getItem('token'))
+  const [loginUser, { loading }] = useMutation(LOGIN_USER);
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const history = useHistory();
+  const { setIsAuth } = useContext(AuthContext);
+  console.log(localStorage.getItem('token'));
 
   const onSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
       const { data } = await loginUser({
         variables: { username: login, password: password },
-      })
-      console.log('login data: ', data)
-      localStorage.setItem('token', data.login)
-      if (localStorage.getItem('token')) setIsAuth(true)
-      history.push('/home')
+      });
+      console.log('login data: ', data);
+      localStorage.setItem('token', data.login);
+      if (localStorage.getItem('token')) setIsAuth(true);
+      history.push('/home');
     } catch (error) {
-      alert('Ошибка')
-      console.log(error)
+      alert('Ошибка');
+      console.log(error);
     }
-  }
+  };
 
   return (
     <AuthContainer onSubmit={onSubmit}>
@@ -56,7 +56,7 @@ const Login = () => {
         <Link to="/registration">Registration</Link>
       </AuthButton>
     </AuthContainer>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

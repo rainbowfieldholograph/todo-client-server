@@ -1,14 +1,14 @@
-import { useMutation } from '@apollo/client'
-import { useState } from 'react'
-import { REMOVE_POST } from '../../graphql/mutation'
-import { IconButton } from '@mui/material'
-import { Box, Button, Typography } from '@mui/material'
-import MyModal from '../myModal/MyModal'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { useMutation } from '@apollo/client';
+import { useState } from 'react';
+import { IconButton } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MyModal from '../myModal/MyModal';
+import { REMOVE_POST } from '../../graphql/mutation';
 
 const RemoveTodoItem = ({ postId, todos, setTodos }) => {
-  const [removePost, { loading }] = useMutation(REMOVE_POST)
-  const [modal, setModal] = useState(false)
+  const [removePost, { loading }] = useMutation(REMOVE_POST);
+  const [modal, setModal] = useState(false);
 
   const onClickRemove = async (id) => {
     try {
@@ -16,14 +16,14 @@ const RemoveTodoItem = ({ postId, todos, setTodos }) => {
         variables: {
           postId: id,
         },
-      })
-      setModal(false)
-      setTodos(todos.filter((todo) => todo.id !== id))
+      });
+      setModal(false);
+      setTodos(todos.filter((todo) => todo.id !== id));
     } catch (error) {
-      alert('Ошибка')
-      console.log(error)
+      alert('Ошибка');
+      console.log(error);
     }
-  }
+  };
 
   return (
     <>
@@ -44,7 +44,7 @@ const RemoveTodoItem = ({ postId, todos, setTodos }) => {
         </Box>
       </MyModal>
     </>
-  )
-}
+  );
+};
 
-export default RemoveTodoItem
+export default RemoveTodoItem;

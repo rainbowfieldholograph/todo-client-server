@@ -1,13 +1,13 @@
-import { useContext } from 'react'
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom'
-import MyTodos from '../../pages/myTodos/MyTodos'
-import Registration from '../../pages/registration/Registration'
-import Login from '../../pages/login/Login'
-import { AuthContext } from '../../context/context'
-import Header from '../header/Header'
+import { useContext } from 'react';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import MyTodos from '../../pages/myTodos/MyTodos';
+import Registration from '../../pages/registration/Registration';
+import Login from '../../pages/login/Login';
+import { AuthContext } from '../../context/context';
+import Header from '../header/Header';
 
 const Router = () => {
-  const { isAuth } = useContext(AuthContext)
+  const { isAuth } = useContext(AuthContext);
 
   return (
     <HashRouter>
@@ -33,7 +33,7 @@ const Router = () => {
         </Switch>
       )}
     </HashRouter>
-  )
-}
+  );
+};
 
-export default Router
+export default Router;

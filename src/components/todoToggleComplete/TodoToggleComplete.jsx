@@ -1,10 +1,10 @@
-import { useMutation } from '@apollo/client'
-import { Checkbox } from '@mui/material'
-import { useCallback } from 'react'
-import { UPDATE_POST } from '../../graphql/mutation'
+import { useMutation } from '@apollo/client';
+import { Checkbox } from '@mui/material';
+import { useCallback } from 'react';
+import { UPDATE_POST } from '../../graphql/mutation';
 
 const TodoToggleComplete = ({ id, completed, todos, setTodos }) => {
-  const [updatePost, { loading }] = useMutation(UPDATE_POST)
+  const [updatePost, { loading }] = useMutation(UPDATE_POST);
   const onToggleCompleted = useCallback(
     async (id, completed) => {
       try {
@@ -13,19 +13,19 @@ const TodoToggleComplete = ({ id, completed, todos, setTodos }) => {
             id: id,
             completed: completed,
           },
-        })
+        });
         setTodos(
           todos.map((todo) => {
-            if (todo.id !== id) return todo
-            return { ...todo, completed: !todo.completed }
+            if (todo.id !== id) return todo;
+            return { ...todo, completed: !todo.completed };
           })
-        )
+        );
       } catch (error) {
-        alert(error)
+        alert(error);
       }
     },
     [updatePost, todos, setTodos]
-  )
+  );
 
   return (
     <Checkbox
@@ -34,7 +34,7 @@ const TodoToggleComplete = ({ id, completed, todos, setTodos }) => {
       disabled={loading}
       onClick={() => onToggleCompleted(id, !completed)}
     />
-  )
-}
+  );
+};
 
-export default TodoToggleComplete
+export default TodoToggleComplete;

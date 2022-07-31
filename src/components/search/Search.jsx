@@ -1,6 +1,6 @@
-import { memo } from 'react'
-import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
+import { memo } from 'react';
+import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Search = memo(function Search({ setSearch, search }) {
   return (
@@ -17,7 +17,7 @@ const Search = memo(function Search({ setSearch, search }) {
         }
       />
     </FormControl>
-  )
-})
+  );
+});
 
-export default Search
+export default Search;

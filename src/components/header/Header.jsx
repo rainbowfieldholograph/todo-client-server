@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material';
 
 const Header = () => {
   return (
@@ -14,7 +14,7 @@ const Header = () => {
         Maybetomorrow
       </Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

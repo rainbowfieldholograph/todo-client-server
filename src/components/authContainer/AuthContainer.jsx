@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box } from '@mui/material';
 
 const AuthContainer = ({ children, onSubmit }) => {
   return (
@@ -32,7 +32,7 @@ const AuthContainer = ({ children, onSubmit }) => {
         {children}
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default AuthContainer
+export default AuthContainer;

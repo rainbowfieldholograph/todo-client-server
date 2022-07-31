@@ -1,20 +1,20 @@
-import './defaultStyles.css'
-import Router from './components/router/Router'
-import apolloClient from './utils/Apollo'
-import { ApolloProvider } from '@apollo/client'
-import { useEffect, useState } from 'react'
-import { AuthContext } from './context/context'
+import './defaultStyles.css';
+import { ApolloProvider } from '@apollo/client';
+import { useEffect, useState } from 'react';
+import Router from './components/router/Router';
+import apolloClient from './utils/Apollo';
+import { AuthContext } from './context/context';
 
 const App = () => {
-  const [isAuth, setIsAuth] = useState(false)
+  const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      setIsAuth(true)
+      setIsAuth(true);
     } else {
-      setIsAuth(false)
+      setIsAuth(false);
     }
-  }, [])
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth }}>
@@ -22,7 +22,7 @@ const App = () => {
         <Router />
       </ApolloProvider>
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

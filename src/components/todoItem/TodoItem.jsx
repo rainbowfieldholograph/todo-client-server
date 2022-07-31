@@ -1,7 +1,7 @@
-import TodoToggleComplete from '../todoToggleComplete/TodoToggleComplete'
-import RemoveTodoItem from '../removeTodoItem/RemoveTodoItem'
-import { memo } from 'react'
-import { Box, Typography } from '@mui/material'
+import { memo } from 'react';
+import { Box, Typography } from '@mui/material';
+import TodoToggleComplete from '../todoToggleComplete/TodoToggleComplete';
+import RemoveTodoItem from '../removeTodoItem/RemoveTodoItem';
 
 const TodoItem = memo(function Item({
   todos,
@@ -48,7 +48,7 @@ const TodoItem = memo(function Item({
         <RemoveTodoItem todos={todos} setTodos={setTodos} postId={postId} />
       </Box>
     </Box>
-  )
-})
+  );
+});
 
-export default TodoItem
+export default TodoItem;

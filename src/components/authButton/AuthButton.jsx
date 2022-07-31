@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button } from '@mui/material';
 
 const AuthButton = ({ children, type = 'button', disabled }) => {
   return (
@@ -10,7 +10,7 @@ const AuthButton = ({ children, type = 'button', disabled }) => {
     >
       {children}
     </Button>
-  )
-}
+  );
+};
 
-export default AuthButton
+export default AuthButton;

@@ -1,14 +1,14 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
-import { memo, useState } from 'react'
+import { Box, Button, TextField, Typography } from '@mui/material';
+import { memo, useState } from 'react';
 
 const AddForm = memo(function AddForm({ addNew, loading }) {
-  const [title, setTitle] = useState('')
-  const [desc, setDesc] = useState('')
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
 
   const addNewTask = async (event) => {
-    event.preventDefault()
-    await addNew(title, desc, false)
-  }
+    event.preventDefault();
+    await addNew(title, desc, false);
+  };
 
   return (
     <Box
@@ -44,7 +44,7 @@ const AddForm = memo(function AddForm({ addNew, loading }) {
         Создать задачу
       </Button>
     </Box>
-  )
-})
+  );
+});
 
-export default AddForm
+export default AddForm;
